@@ -113,19 +113,43 @@
             box-sizing: border-box;
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
         }
-        .quadrotopo .input-group-item {
+        
+        /* Layout dos inputs principais */
+        .input-group-item {
             flex: 0 0 auto;
             margin: auto 20px; 
         }
-        .quadrotopo .btn-info-detail {
-            display: none; 
+
+        /* Container de Valores Adicionais (Valores Adv/Policial) */
+        .value-display-container {
+            flex: 0 0 auto;
+            margin-left: 20px;
+            padding-right: 20px;
+            border-right: 1px solid var(--border-color-dark);
+            text-align: right;
+            padding: 10px 0;
+        }
+        .value-row {
+            margin-bottom: 5px;
+        }
+        .value-row label {
+            font-size: 0.9em;
+            color: var(--text-dark-grey);
+            font-weight: 500;
+            display: block;
+        }
+        .value-row span {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-blue); /* Destaca os valores dinâmicos */
+            display: block;
         }
         
         /* Botões de Mídia Social */
         .social-buttons {
             display: flex;
             gap: 10px;
-            margin-left: auto; /* Empurra para o canto direito */
+            margin-left: 20px; 
             margin-right: 30px;
         }
         .social-buttons a {
@@ -339,6 +363,17 @@
                 <input type="number" placeholder="RG do Advogado..." id="adv_rg" name="adv_rg" class="form-control">
             </div>
             
+            <div class="value-display-container">
+                <div class="value-row">
+                    <label>Valor do Advogado (60%):</label>
+                    <span id="advogado_valor">R$ 0,00</span>
+                </div>
+                <div class="value-row">
+                    <label>Valor Resp. Policial (40%):</label>
+                    <span id="policial_valor">R$ 0,00</span>
+                </div>
+            </div>
+
             <div class="social-buttons">
                 <a href="https://www.instagram.com/imersionroleplay/" target="_blank" title="Instagram">
                     <i class="fab fa-instagram"></i>
@@ -716,10 +751,17 @@
         const relatorioInput = document.getElementById('relatorio_content');
         const oacCheckbox = document.getElementById('oac-checkbox');
 
+        // Novos campos de exibição de valor
+        const advogadoValorSpan = document.getElementById('advogado_valor');
+        const policialValorSpan = document.getElementById('policial_valor');
+
+
         // Constantes de Regra
         const MINUTES_PER_MONTH_SCALE = 6; // 1 Mês = 6 Minutos (10 Meses = 60 Minutos)
         const MAX_PENALTY_MONTHS = 60; 
         const INAFIANCAVEL_TEXT = "INAFIANÇÁVEL";
+        const ADVOGADO_PERCENTAGE = 0.60; // 60%
+        const POLICIAL_PERCENTAGE = 0.40; // 40%
 
         const formatCurrency = (value) => {
             // Formata para R$ X.XXX,XX
@@ -729,11 +771,9 @@
         // Função moderna e confiável para copiar texto
         const copyToClipboard = async (text) => {
             try {
-                // Tenta usar a API moderna de clipboard
                 await navigator.clipboard.writeText(text);
                 alert('Copiado com sucesso! Utilize o template no Discord.');
             } catch (err) {
-                // Fallback para navegadores mais antigos ou erros
                 console.error('Falha ao copiar:', err);
                 const isiOS = navigator.userAgent.match(/ipad|ipod/i);
                 if (isiOS) {
@@ -749,7 +789,7 @@
         };
 
         const updateCalculation = () => {
-            let totalPenaMonths = 0; // Acumulamos em meses (valor do index.html)
+            let totalPenaMonths = 0;
             let totalMulta = 0;
             let totalFianca = 0;
             let hasInafiancavel = false;
@@ -819,11 +859,16 @@
             
             // 3. Lógica da Fiança (Exibição)
             let fiancaDisplay;
+            let fiancaValue = totalFianca;
+
             if (hasInafiancavel) {
                 fiancaDisplay = INAFIANCAVEL_TEXT;
+                fiancaValue = 0; // Zera o valor da fiança para cálculo de 60%/40%
             } else if (totalFianca > 0) {
                 fiancaDisplay = formatCurrency(totalFianca);
             } else if (multaFinal > 0) {
+                // Se fiança for 0, mas houver multa, cobra o valor da multa.
+                fiancaValue = multaFinal;
                 fiancaDisplay = formatCurrency(multaFinal);
             } else {
                 fiancaDisplay = formatCurrency(0);
@@ -831,16 +876,23 @@
             
             if (crimesSelecionados.length === 0) {
                 fiancaDisplay = formatCurrency(0);
+                fiancaValue = 0;
             }
-            
-            // Conversão de Meses RP para Minutos Reais
-            const penaFinalRealMinutes = penaFinalMonths * MINUTES_PER_MONTH_SCALE; 
+
+            // 4. CÁLCULO DOS VALORES DE DISTRIBUIÇÃO (60% / 40%)
+            const valorAdvogado = fiancaValue * ADVOGADO_PERCENTAGE;
+            const valorPolicial = fiancaValue * POLICIAL_PERCENTAGE;
             
             // Atualiza os inputs de resultados
+            const penaFinalRealMinutes = penaFinalMonths * MINUTES_PER_MONTH_SCALE; 
             penaInput.value = penaFinalMonths > 0 ? `${penaFinalMonths} Meses (${penaFinalRealMinutes} Min)` : '0 Meses';
             multaInput.value = formatCurrency(multaFinal);
             fiancaInput.value = fiancaDisplay;
             
+            // Atualiza os campos de distribuição no cabeçalho
+            advogadoValorSpan.textContent = formatCurrency(valorAdvogado);
+            policialValorSpan.textContent = formatCurrency(valorPolicial);
+
             // --- Geração do texto de cópia ---
             const atenuantesText = atenuantesList.length > 0 ? atenuantesList.join(', ') : 'Nenhum';
             const crimesSequencia = crimesSelecionados.map(crime => `- ${crime}`).join('\n');
