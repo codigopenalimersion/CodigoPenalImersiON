@@ -62,7 +62,7 @@
         /* --- Estilo do Cabeçalho da Calculadora (Topo) --- */
         .quadrotopo {
             display: flex;
-            align-items: center;
+            align-items: center; /* Centraliza verticalmente o conteúdo */
             justify-content: flex-start; 
             padding: 20px 0;
             margin-bottom: 30px; 
@@ -117,17 +117,18 @@
         /* Layout dos inputs principais */
         .input-group-item {
             flex: 0 0 auto;
-            margin: auto 20px; 
+            margin: auto 25px; /* MAIS ESPAÇO AQUI */
         }
-
+        
         /* Container de Valores Adicionais (Valores Adv/Policial) */
         .value-display-container {
             flex: 0 0 auto;
-            margin-left: 20px;
-            padding-right: 20px;
+            margin-left: 30px; /* Mais margem à esquerda para respiro */
+            padding-right: 30px; /* Mais padding à direita antes da borda */
             border-right: 1px solid var(--border-color-dark);
             text-align: right;
             padding: 10px 0;
+            /* Centralização vertical implícita pelo align-items: center do .quadrotopo */
         }
         .value-row {
             margin-bottom: 5px;
@@ -141,7 +142,7 @@
         .value-row span {
             font-size: 1.1em;
             font-weight: 600;
-            color: var(--text-blue); /* Destaca os valores dinâmicos */
+            color: var(--text-blue); 
             display: block;
         }
         
@@ -149,8 +150,9 @@
         .social-buttons {
             display: flex;
             gap: 10px;
-            margin-left: 20px; 
+            margin-left: auto; /* Empurra o bloco para o extremo direito */
             margin-right: 30px;
+            /* Ícones centralizados verticalmente pela regra no .quadrotopo */
         }
         .social-buttons a {
             color: var(--text-light-grey);
@@ -755,9 +757,8 @@
         const advogadoValorSpan = document.getElementById('advogado_valor');
         const policialValorSpan = document.getElementById('policial_valor');
 
-
         // Constantes de Regra
-        const MINUTES_PER_MONTH_SCALE = 6; // 1 Mês = 6 Minutos (10 Meses = 60 Minutos)
+        const MINUTES_PER_MONTH_SCALE = 6; // 1 Mês = 6 Minutos (60 / 10)
         const MAX_PENALTY_MONTHS = 60; 
         const INAFIANCAVEL_TEXT = "INAFIANÇÁVEL";
         const ADVOGADO_PERCENTAGE = 0.60; // 60%
