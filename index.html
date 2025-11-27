@@ -120,6 +120,30 @@
         .quadrotopo .btn-info-detail {
             display: none; 
         }
+        
+        /* Botões de Mídia Social */
+        .social-buttons {
+            display: flex;
+            gap: 10px;
+            margin-left: auto; /* Empurra para o canto direito */
+            margin-right: 30px;
+        }
+        .social-buttons a {
+            color: var(--text-light-grey);
+            background-color: var(--input-bg);
+            padding: 10px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        .social-buttons a:hover {
+            background-color: var(--hover-bg);
+            color: var(--text-blue);
+        }
+        .social-buttons i {
+            font-size: 1.3em;
+        }
+
 
         /* --- Corpo da Calculadora (Três Colunas + Coluna de Resultado) --- */
         #calculatorView {
@@ -180,9 +204,6 @@
         .checkbox-container input:checked + label {
             color: var(--text-light-grey);
             font-weight: 500;
-        }
-        .checkbox-container .btn {
-            display: none; 
         }
 
         /* --- Coluna de Resultados (Direita) --- */
@@ -258,7 +279,7 @@
             margin-top: 5px;
         }
         
-        /* Ajuste do Relatório para ter a mesma largura da lista de crimes (usa o mesmo contêiner da lista) */
+        /* Ajuste do Relatório */
         .relatorio-container {
             width: 100%; 
             margin-top: 20px;
@@ -314,7 +335,17 @@
                 <h3>RG do Advogado</h3>
                 <input type="number" placeholder="RG do Advogado..." id="adv_rg" name="adv_rg" class="form-control">
             </div>
-            <div style="margin: auto 30px; flex: 0 0 auto;">
+            
+            <div class="social-buttons">
+                <a href="https://www.instagram.com/imersionroleplay/" target="_blank" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.tiktok.com/@imersionrp?lang=en" target="_blank" title="TikTok">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                <a href="https://discord.gg/link-do-discord" target="_blank" title="Discord">
+                    <i class="fab fa-discord"></i>
+                </a>
             </div>
         </div>
 
@@ -680,27 +711,39 @@
         const oacCheckbox = document.getElementById('oac-checkbox');
 
         // Constantes de Regra
-        const MINUTES_PER_MONTH_SCALE = 6; // 1 Mês = 6 Minutos (60 / 10)
+        const MINUTES_PER_MONTH_SCALE = 6; // 1 Mês = 6 Minutos (10 Meses = 60 Minutos)
         const MAX_PENALTY_MONTHS = 60; 
         const INAFIANCAVEL_TEXT = "INAFIANÇÁVEL";
 
         const formatCurrency = (value) => {
+            // Formata para R$ X.XXX,XX
             return `R$ ${value.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         };
 
         // Função moderna e confiável para copiar texto
         const copyToClipboard = async (text) => {
             try {
+                // Tenta usar a API moderna de clipboard
                 await navigator.clipboard.writeText(text);
                 alert('Copiado com sucesso! Utilize o template no Discord.');
             } catch (err) {
+                // Fallback para navegadores mais antigos ou erros
                 console.error('Falha ao copiar:', err);
-                alert('Erro ao tentar copiar automaticamente. Tente copiar o texto da caixa manualmente.');
+                const isiOS = navigator.userAgent.match(/ipad|ipod/i); // iOS precisa de fallback especial
+                if (isiOS) {
+                    copyTextarea.select();
+                    copyTextarea.setSelectionRange(0, 99999);
+                    document.execCommand("copy");
+                    alert('Copiado (Fallback iOS)! Utilize o template no Discord.');
+                } else {
+                    alert('Erro ao copiar. O texto da Ficha Criminal foi selecionado para cópia manual.');
+                    copyTextarea.select();
+                }
             }
         };
 
         const updateCalculation = () => {
-            let totalPenaMonths = 0; // Acumulamos em meses (valor do index.html)
+            let totalPenaMonths = 0;
             let totalMulta = 0;
             let totalFianca = 0;
             let hasInafiancavel = false;
