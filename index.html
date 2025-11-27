@@ -205,6 +205,9 @@
             color: var(--text-light-grey);
             font-weight: 500;
         }
+        .checkbox-container .btn {
+            display: none; 
+        }
 
         /* --- Coluna de Resultados (Direita) --- */
         .quadro.result-column {
@@ -343,7 +346,7 @@
                 <a href="https://www.tiktok.com/@imersionrp?lang=en" target="_blank" title="TikTok">
                     <i class="fab fa-tiktok"></i>
                 </a>
-                <a href="https://discord.gg/imersionrp" target="_blank" title="Discord">
+                <a href="https://www.tiktok.com/@imersionrp?lang=en" target="_blank" title="Discord">
                     <i class="fab fa-discord"></i>
                 </a>
             </div>
@@ -622,6 +625,9 @@
                     <p class="max-jail-info" style="color: var(--text-dark-grey); margin-top: 5px;">
                         (Pena máxima de 60 meses aplicada)
                     </p>
+                    <p class="max-jail-info" style="color: var(--alert-red); margin-top: 5px;">
+                        Se a Lei de Miranda não for lida, anula toda operação
+                    </p>
                 </div>
                 
                 <h4>⚖️ PENA:</h4>
@@ -729,7 +735,7 @@
             } catch (err) {
                 // Fallback para navegadores mais antigos ou erros
                 console.error('Falha ao copiar:', err);
-                const isiOS = navigator.userAgent.match(/ipad|ipod/i); // iOS precisa de fallback especial
+                const isiOS = navigator.userAgent.match(/ipad|ipod/i);
                 if (isiOS) {
                     copyTextarea.select();
                     copyTextarea.setSelectionRange(0, 99999);
@@ -743,7 +749,7 @@
         };
 
         const updateCalculation = () => {
-            let totalPenaMonths = 0;
+            let totalPenaMonths = 0; // Acumulamos em meses (valor do index.html)
             let totalMulta = 0;
             let totalFianca = 0;
             let hasInafiancavel = false;
@@ -788,13 +794,11 @@
                 atenuantesList.push("Advogado Constituído (Redução de 30%)");
 
                 if (reuPrimarioEl.checked) {
-                    // 50% de redução (Pena = Pena * 0.50)
                     penaFinalMonths = Math.ceil(penaFinalMonths * 0.50); 
                     atenuantesList.push("Réu Primário (Redução de 50%)");
                 }
                 
                 if (reuConfessoEl.checked) {
-                    // 15% de redução (Pena = Pena * 0.85)
                     penaFinalMonths = Math.ceil(penaFinalMonths * 0.85); 
                     atenuantesList.push("Réu Confesso (Redução de 15%)");
                 }
@@ -802,7 +806,7 @@
 
             // 2. POSSUI OAC (100% de aumento na pena)
             if (oacCheckbox && oacCheckbox.checked) {
-                 penaFinalMonths = Math.ceil(penaFinalMonths * 2.0); // Aumenta em 100% (multiplica por 2)
+                 penaFinalMonths = Math.ceil(penaFinalMonths * 2.0); // Aumento em 100% (mult*2)
                  atenuantesList.push("POSSUI OAC (Aumento de 100%)");
             }
             
