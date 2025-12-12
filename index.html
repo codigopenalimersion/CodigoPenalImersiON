@@ -17,7 +17,7 @@
             --text-light-grey: #e0e0e0;   
             --text-dark-grey: #aaaaaa;    
             --border-color-dark: #333333; 
-            --hover-bg: #2a2a2a;          
+            --hover-bg: #2a2a2a;           
             --alert-red: #dc3545; 
             --input-bg: #2b2b2b; 
             --input-border: #444444; 
@@ -117,18 +117,43 @@
         /* Layout dos inputs principais */
         .input-group-item {
             flex: 0 0 auto;
-            margin: auto 25px; /* MAIS ESPAÇO AQUI */
+            margin: auto 15px; 
         }
         
+        /* Botão Código Penal */
+        .btn-penal {
+            background-color: var(--text-blue);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-family: var(--main-font);
+            font-weight: 700;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0, 170, 255, 0.3);
+            margin-left: 10px;
+        }
+        .btn-penal:hover {
+            background-color: #0088cc;
+            transform: translateY(-2px);
+        }
+        .btn-penal:active {
+            transform: translateY(0);
+        }
+
         /* Container de Valores Adicionais (Valores Adv/Policial) */
         .value-display-container {
             flex: 0 0 auto;
-            margin-left: 30px; /* Mais margem à esquerda para respiro */
-            padding-right: 30px; /* Mais padding à direita antes da borda */
+            margin-left: 20px; 
+            padding-right: 20px; 
             border-right: 1px solid var(--border-color-dark);
             text-align: right;
-            padding: 10px 0;
-            /* Centralização vertical implícita pelo align-items: center do .quadrotopo */
+            padding: 10px 20px 10px 0;
         }
         .value-row {
             margin-bottom: 5px;
@@ -152,7 +177,6 @@
             gap: 10px;
             margin-left: auto; /* Empurra o bloco para o extremo direito */
             margin-right: 30px;
-            /* Ícones centralizados verticalmente pela regra no .quadrotopo */
         }
         .social-buttons a {
             color: var(--text-light-grey);
@@ -334,6 +358,94 @@
             color: var(--text-light-grey);
             font-weight: 600;
         }
+
+        /* --- MODAL DO CÓDIGO PENAL --- */
+        .modal-overlay {
+            display: none; /* Escondido por padrão */
+            position: fixed; 
+            z-index: 9999; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0,0,0,0.85); /* Fundo escuro */
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: var(--bg-dark-card);
+            margin: 5% auto; 
+            padding: 30px;
+            border: 1px solid var(--text-blue);
+            width: 80%; 
+            max-width: 1000px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 170, 255, 0.2);
+            position: relative;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            color: var(--text-dark-grey);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .close-modal:hover {
+            color: var(--alert-red);
+        }
+
+        .modal-header h2 {
+            color: var(--text-blue);
+            margin-top: 0;
+            border-bottom: 2px solid var(--border-color-dark);
+            padding-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        /* Tabela do Modal */
+        .penal-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .penal-table th, .penal-table td {
+            border: 1px solid var(--border-color-dark);
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .penal-table th {
+            background-color: var(--crime-header-bg);
+            color: var(--text-blue);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            position: sticky;
+            top: 0;
+        }
+        .penal-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+        .penal-table tr:hover {
+            background-color: var(--hover-bg);
+        }
+        .penal-table td.cat-row {
+            background-color: rgba(0, 170, 255, 0.1);
+            color: var(--text-light-grey);
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            padding: 15px;
+        }
         
     </style>
 </head>
@@ -364,6 +476,10 @@
                 <h3>RG do Advogado</h3>
                 <input type="number" placeholder="RG do Advogado..." id="adv_rg" name="adv_rg" class="form-control">
             </div>
+
+            <button id="btn-open-modal" class="btn-penal">
+                <i class="fas fa-book"></i> CÓDIGO PENAL
+            </button>
             
             <div class="value-display-container">
                 <div class="value-row">
@@ -730,6 +846,17 @@
     
 </div>
 
+<div id="modalPenalCode" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="modal-header">
+            <h2>Tabela Completa - Código Penal</h2>
+        </div>
+        <div id="modalBody">
+            </div>
+    </div>
+</div>
+
 <footer class="footer">
     Autor <strong>Nox</strong>, todos direitos reservados - 2025.
 </footer>
@@ -953,6 +1080,85 @@ ${crimesSequencia}
         copyBtn.addEventListener('click', () => {
              copyToClipboard(copyTextarea.value);
         });
+
+        // --- LÓGICA DO MODAL CÓDIGO PENAL ---
+        const modal = document.getElementById("modalPenalCode");
+        const btnModal = document.getElementById("btn-open-modal");
+        const spanClose = document.querySelector(".close-modal");
+        const modalBody = document.getElementById("modalBody");
+
+        // Função para gerar a tabela automaticamente baseada nos checkboxes existentes
+        function generatePenalTable() {
+            let tableHTML = `<table class="penal-table">
+                                <thead>
+                                    <tr>
+                                        <th>Artigo / Crime</th>
+                                        <th>Pena (Meses)</th>
+                                        <th>Multa</th>
+                                        <th>Fiança</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`;
+            
+            // Varre as 3 colunas de crimes
+            const colunas = document.querySelectorAll('.crime-columns .body-forms');
+            
+            colunas.forEach(coluna => {
+                // Pega os elementos filhos (h3 e checkbox-container)
+                const elementos = coluna.children;
+                
+                for (let el of elementos) {
+                    if (el.tagName === 'H3') {
+                        // Título da Categoria
+                        const categoriaTitulo = el.textContent.replace(':', '');
+                        tableHTML += `<tr><td colspan="4" class="cat-row">${categoriaTitulo}</td></tr>`;
+                    } else if (el.classList.contains('checkbox-container')) {
+                        // É um crime
+                        const input = el.querySelector('input');
+                        const label = el.querySelector('label').textContent;
+                        const values = input.value.split('|');
+                        
+                        const pena = values[0] + " Meses";
+                        const multa = parseInt(values[1]).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                        let fianca = "R$ 0,00";
+                        
+                        if(values[2] === "NA") {
+                            fianca = "<span style='color:var(--alert-red); font-weight:bold;'>INAFIANÇÁVEL</span>";
+                        } else if(parseInt(values[2]) > 0) {
+                             fianca = parseInt(values[2]).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                        } else if (parseInt(values[1]) > 0) {
+                             // Se fiança for 0 na config, mas tem multa, a fiança é a multa (lógica do script principal)
+                             fianca = parseInt(values[1]).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                        }
+                        
+                        tableHTML += `<tr>
+                                        <td><strong>${label}</strong></td>
+                                        <td>${pena}</td>
+                                        <td>${multa}</td>
+                                        <td>${fianca}</td>
+                                      </tr>`;
+                    }
+                }
+            });
+
+            tableHTML += `</tbody></table>`;
+            modalBody.innerHTML = tableHTML;
+        }
+
+        btnModal.onclick = function() {
+            generatePenalTable(); // Gera a tabela sempre que abrir para garantir dados atualizados
+            modal.style.display = "block";
+        }
+
+        spanClose.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 
         // Chamada inicial (para preencher campos vazios)
         updateCalculation(); 
