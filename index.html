@@ -8,14 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Variáveis de Cores (Azul ImersiON Sóbreo/Escuro) */
+        /* --- Variáveis de Cores --- */
         :root {
-            --bg-deep-dark: #121212;      
+            --bg-deep-dark: #121212;        
             --bg-main-light: #181818; 
             --bg-dark-card: #202020; 
-            --text-blue: #00aaff; /* Azul ImersiON */
-            --text-light-grey: #e0e0e0;   
-            --text-dark-grey: #aaaaaa;    
+            --text-blue: #00aaff;
+            --text-light-grey: #e0e0e0;    
+            --text-dark-grey: #aaaaaa;      
             --border-color-dark: #333333; 
             --hover-bg: #2a2a2a;            
             --alert-red: #dc3545; 
@@ -29,770 +29,468 @@
             --shadow-light: rgba(0, 0, 0, 0.3);
         }
 
-        /* Estilos Globais e Reset */
+        /* --- TEMAS --- */
+        [data-theme="light"] {
+            --bg-deep-dark: #e0e0e0; --bg-main-light: #f4f4f4; --bg-dark-card: #ffffff;
+            --text-light-grey: #333333; --text-dark-grey: #555555; --border-color-dark: #cccccc;
+            --hover-bg: #e6e6e6; --input-bg: #ffffff; --input-border: #bbbbbb;
+            --calc-result-bg: #ffffff; --crime-header-bg: #eeeeee; --crime-header-text: #333333;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+        }
+        [data-theme="police"] {
+            --bg-deep-dark: #000000; --bg-main-light: #050505; --bg-dark-card: #0a0a0a;
+            --text-blue: #0047AB; --text-light-grey: #cccccc; --border-color-dark: #333333;
+            --input-bg: #111111; --calc-result-bg: #080808; --crime-header-bg: #1a1a1a; --hover-bg: #1f1f1f;
+        }
+        [data-theme="gold"] {
+            --bg-deep-dark: #0f0f0f; --bg-main-light: #141414; --bg-dark-card: #1c1c1c;
+            --text-blue: #d4af37; --border-color-dark: #443c20; --crime-header-bg: #292412; --crime-header-text: #d4af37;
+        }
+
+        /* Estilos Globais */
         body {
-            font-family: var(--main-font);
-            background-color: var(--bg-main-light);
-            color: var(--text-light-grey);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column; 
-            min-height: 100vh;
-            overflow-x: hidden;
-            font-weight: 400;
+            font-family: var(--main-font); background-color: var(--bg-main-light); color: var(--text-light-grey);
+            margin: 0; padding: 0; display: flex; flex-direction: column; 
+            min-height: 100vh; overflow-x: hidden; font-weight: 400; transition: background-color 0.3s, color 0.3s;
         }
-
-        .main-wrapper {
-            display: flex;
-            width: 100%;
-            flex: 1;
-        }
-
-        /* --- Área de Conteúdo Principal (Central) --- */
+        .main-wrapper { display: flex; width: 100%; flex: 1; }
         .content-area {
-            flex-grow: 1;
-            padding: 0 40px 40px 40px; 
-            background-color: var(--bg-main-light);
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
+            flex-grow: 1; padding: 0 40px 40px 40px; background-color: var(--bg-main-light);
+            display: flex; flex-direction: column; overflow-y: auto; transition: background-color 0.3s;
         }
         
-        /* --- Estilo do Cabeçalho da Calculadora (Topo) --- */
+        /* --- CABEÇALHO --- */
         .quadrotopo {
-            display: flex;
-            align-items: center; /* Centraliza verticalmente o conteúdo */
-            justify-content: flex-start; 
-            padding: 20px 0;
-            margin-bottom: 30px; 
-            background-color: var(--bg-dark-card); 
-            border-bottom: 3px solid var(--text-blue); 
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 4px 15px var(--shadow-light);
-        }
-        .corp-header {
-            flex: 0 0 auto;
-            text-align: left;
-            padding: 0 30px; 
-            border-right: 1px solid var(--border-color-dark);
-            height: 100%;
-            margin-right: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .corp-header h2 {
-            font-size: 1.6em;
-            font-weight: 700;
-            color: var(--text-blue);
-            margin-bottom: 0;
-            margin-top: 0;
-        }
-        .corp-header span {
-            font-size: 1.1em;
-            font-weight: 400;
-            color: var(--text-light-grey);
-            display: block;
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 20px 30px; margin-bottom: 30px; 
+            background-color: var(--bg-dark-card); border-bottom: 3px solid var(--text-blue); 
+            border-radius: 0 0 10px 10px; box-shadow: 0 4px 15px var(--shadow-light);
+            gap: 20px; flex-wrap: wrap;
+            transition: all 0.3s ease;
         }
 
-        .quadrotopo h3 {
-            color: var(--text-light-grey);
-            font-size: 1em;
-            margin-bottom: 5px;
-            font-weight: 600;
+        .corp-header {
+            text-align: left; padding-right: 20px; border-right: 1px solid var(--border-color-dark);
+            display: flex; flex-direction: column; justify-content: center;
         }
-        .quadrotopo input[type="text"], .quadrotopo input[type="number"] {
-            width: 250px; 
-            padding: 10px 12px;
-            background-color: var(--input-bg);
-            border: 1px solid var(--input-border);
-            border-radius: 6px; 
-            color: var(--text-light-grey);
-            font-size: 1em;
-            box-sizing: border-box;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+        .corp-header h2 { 
+            font-size: 1.6em; font-weight: 700; color: var(--text-blue); 
+            margin-top: 0; margin-bottom: 8px; white-space: nowrap; 
         }
         
-        /* Layout dos inputs principais */
-        .input-group-item {
-            flex: 0 0 auto;
-            margin: auto 15px; 
+        /* Container do Badge (Nome e Profissão) */
+        #user-badge-container {
+            font-size: 1.1em; font-weight: 600; 
+            display: flex; gap: 5px; align-items: center;
         }
+        .badge-name { color: var(--text-blue); }
+        .badge-job { color: var(--text-blue); filter: brightness(0.7); }
+
+        .inputs-container { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: flex-end; }
+        .input-group-item h3 { color: var(--text-light-grey); font-size: 0.9em; margin-bottom: 5px; font-weight: 600; }
+        .input-group-item input {
+            width: 200px; padding: 10px 12px; background-color: var(--input-bg); border: 1px solid var(--input-border);
+            border-radius: 6px; color: var(--text-light-grey); font-size: 1em;
+        }
+
+        /* Container de Valores */
+        .value-display-container {
+            display: flex; flex-direction: column; justify-content: center;
+            text-align: right;
+            padding: 0 15px;
+            border-right: 1px solid var(--border-color-dark);
+        }
+        .value-row { margin-bottom: 5px; white-space: nowrap; }
+        .value-row label { font-size: 0.85em; color: var(--text-dark-grey); font-weight: 500; display: inline-block; margin-right: 5px;}
+        .value-row span { font-size: 1em; font-weight: 700; color: var(--text-blue); }
+
+        /* Agrupador da direita */
+        .right-controls-wrapper {
+            display: flex; align-items: center; gap: 15px; margin-left: auto; 
+        }
+        .social-buttons-container { display: flex; gap: 10px; }
         
-        /* Botão Código Penal */
+        .icon-btn {
+            color: var(--text-light-grey); background-color: var(--input-bg); padding: 0; width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center; border-radius: 6px; text-decoration: none; transition: 0.2s;
+            border: 1px solid var(--input-border); cursor: pointer;
+        }
+        .icon-btn:hover, .icon-btn.active { background-color: var(--hover-bg); color: var(--text-blue); border-color: var(--text-blue); }
+        .icon-btn i { font-size: 1.2em; }
+
         .btn-penal {
+            background-color: var(--text-blue); color: #fff; border: none; padding: 10px 15px; border-radius: 6px;
+            font-family: var(--main-font); font-weight: 700; font-size: 0.9em; cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); white-space: nowrap;
+        }
+        .btn-penal:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+        /* --- MODAL DE BOAS VINDAS (TUTORIAL) --- */
+        .welcome-overlay {
+            display: none; /* Ativado via JS */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 99999; /* Fica acima de tudo */
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s;
+        }
+        .welcome-modal {
+            background-color: var(--bg-dark-card);
+            border: 2px solid var(--text-blue);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            position: relative;
+        }
+        .welcome-modal h2 {
+            color: var(--text-blue);
+            margin-top: 0;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+        .welcome-modal p {
+            color: var(--text-light-grey);
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .welcome-btn {
             background-color: var(--text-blue);
             color: #fff;
             border: none;
-            padding: 12px 20px;
-            border-radius: 6px;
-            font-family: var(--main-font);
+            padding: 12px 30px;
+            font-size: 1.1em;
             font-weight: 700;
-            font-size: 0.9em;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 10px rgba(0, 170, 255, 0.3);
-            margin-left: 10px;
+            transition: 0.2s;
+            width: 100%;
         }
-        .btn-penal:hover {
-            background-color: #0088cc;
+        .welcome-btn:hover {
+            filter: brightness(1.1);
             transform: translateY(-2px);
         }
-        .btn-penal:active {
-            transform: translateY(0);
-        }
 
-        /* Container de Valores Adicionais (Valores Adv/Policial) */
-        .value-display-container {
-            flex: 0 0 auto;
-            margin-left: 20px; 
-            padding-right: 20px; 
-            border-right: 1px solid var(--border-color-dark);
-            text-align: right;
-            padding: 10px 20px 10px 0;
+        /* --- SETTINGS --- */
+        .settings-panel {
+            display: none; position: absolute; top: 90px; right: 30px;
+            background-color: var(--bg-dark-card); border: 1px solid var(--border-color-dark);
+            border-radius: 8px; padding: 20px; width: 250px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1000;
         }
-        .value-row {
-            margin-bottom: 5px;
+        .settings-panel.show { display: block; animation: fadeIn 0.2s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .settings-group { margin-bottom: 20px; }
+        .settings-title { font-size: 0.9em; color: var(--text-dark-grey); text-transform: uppercase; font-weight: 700; margin-bottom: 10px; border-bottom: 1px solid var(--border-color-dark); padding-bottom: 5px; }
+        .settings-input {
+            width: 100%; padding: 8px; background-color: var(--input-bg); border: 1px solid var(--border-color-dark);
+            border-radius: 4px; color: var(--text-light-grey); margin-bottom: 8px; font-size: 0.9em; box-sizing: border-box;
         }
-        .value-row label {
-            font-size: 0.9em;
-            color: var(--text-dark-grey);
-            font-weight: 500;
-            display: block;
-        }
-        .value-row span {
-            font-size: 1.1em;
-            font-weight: 600;
-            color: var(--text-blue); 
-            display: block;
-        }
+        .settings-input:focus { border-color: var(--text-blue); outline: none; }
+
+        .theme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .theme-btn { padding: 8px; border: 1px solid var(--border-color-dark); background: var(--input-bg); color: var(--text-light-grey); border-radius: 4px; cursor: pointer; font-size: 0.85em; text-align: center; transition: 0.2s; }
+        .theme-btn:hover { background: var(--hover-bg); }
+        .theme-btn.active { border-color: var(--text-blue); color: var(--text-blue); background: rgba(0, 170, 255, 0.1); }
         
-        /* Botões de Mídia Social */
-        .social-buttons {
-            display: flex;
-            gap: 10px;
-            margin-left: auto; /* Empurra o bloco para o extremo direito */
-            margin-right: 30px;
-        }
-        .social-buttons a {
-            color: var(--text-light-grey);
-            background-color: var(--input-bg);
-            padding: 10px 12px;
-            border-radius: 6px;
-            text-decoration: none;
-            transition: background-color 0.2s;
-        }
-        .social-buttons a:hover {
-            background-color: var(--hover-bg);
-            color: var(--text-blue);
-        }
-        .social-buttons i {
-            font-size: 1.3em;
-        }
+        .switch { position: relative; display: inline-block; width: 40px; height: 20px; margin-right: 10px; vertical-align: middle;}
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--input-bg); transition: .4s; border-radius: 34px; border: 1px solid var(--border-color-dark); }
+        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 2px; background-color: var(--text-dark-grey); transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--text-blue); }
+        input:checked + .slider:before { transform: translateX(20px); background-color: white; }
+        .switch-label { font-size: 0.9em; color: var(--text-light-grey); }
 
+        .search-crimes-container { margin-bottom: 20px; position: relative; margin-right: 20px; max-width: 98%; }
+        .search-crimes-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-dark-grey); }
+        .search-crimes-input { width: 100%; padding: 15px 15px 15px 45px; background-color: var(--bg-dark-card); border: 1px solid var(--border-color-dark); border-radius: 8px; color: var(--text-light-grey); font-size: 1.1em; font-family: var(--main-font); outline: none; box-shadow: 0 4px 10px var(--shadow-light); transition: border-color 0.3s; box-sizing: border-box; }
+        .search-crimes-input:focus { border-color: var(--text-blue); }
 
-        /* --- Corpo da Calculadora (Três Colunas + Coluna de Resultado) --- */
-        #calculatorView {
-            display: flex;
-            gap: 30px; 
-            flex: 1;
-        }
-        .crime-columns {
-            display: flex;
-            flex: 1;
-            gap: 20px;
-        }
-        .quadro.body-forms {
-            flex: 1 1 30%; 
-            background-color: var(--bg-dark-card);
-            padding: 20px; 
-            border-radius: 8px;
-            border: 1px solid var(--border-color-dark) !important;
-            box-shadow: 0 4px 10px var(--shadow-light);
-            min-height: 400px; 
-        }
-        .quadro.body-forms hr {
-            border-top: 1px solid var(--border-color-dark);
-            margin: 15px 0;
-        }
-        .quadro.body-forms h3 {
-            background-color: var(--crime-header-bg) !important;
-            border-radius: 6px;
-            padding: 12px 10px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .quadro.body-forms font {
-            color: var(--crime-header-text) !important;
-            font-size: 1em;
-            font-weight: 600;
-        }
-        .checkbox-container {
-            display: flex;
-            align-items: flex-start;
-            padding: 7px 0;
-            font-size: 0.9em;
-            color: var(--text-dark-grey);
-        }
-        .checkbox-container input[type="checkbox"] {
-            margin-top: 3px; 
-            margin-right: 10px;
-            accent-color: var(--text-blue);
-            min-width: 18px;
-            height: 18px;
-        }
-        .checkbox-container label {
-            flex-grow: 1;
-            line-height: 1.4;
-            color: var(--text-dark-grey);
-            cursor: pointer;
-        }
-        .checkbox-container input:checked + label {
-            color: var(--text-light-grey);
-            font-weight: 500;
-        }
-        .checkbox-container .btn {
-            display: none; 
-        }
+        #calculatorView { display: flex; gap: 30px; flex: 1; }
+        .crime-columns { display: flex; flex: 1; gap: 20px; }
+        .quadro.body-forms { flex: 1 1 30%; background-color: var(--bg-dark-card); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color-dark) !important; box-shadow: 0 4px 10px var(--shadow-light); min-height: 400px; }
+        .quadro.body-forms hr { border-top: 1px solid var(--border-color-dark); margin: 15px 0; }
+        .quadro.body-forms h3 { background-color: var(--crime-header-bg) !important; border-radius: 6px; padding: 12px 10px; margin-bottom: 20px; text-align: center; }
+        .quadro.body-forms font { color: var(--crime-header-text) !important; font-size: 1em; font-weight: 600; }
+        .checkbox-container { display: flex; align-items: flex-start; padding: 7px 0; font-size: 0.9em; color: var(--text-dark-grey); }
+        .checkbox-container input[type="checkbox"] { margin-top: 3px; margin-right: 10px; accent-color: var(--text-blue); min-width: 18px; height: 18px; }
+        .checkbox-container label { flex-grow: 1; line-height: 1.4; color: var(--text-dark-grey); cursor: pointer; }
+        .checkbox-container input:checked + label { color: var(--text-light-grey); font-weight: 500; }
 
-        /* --- Coluna de Resultados (Direita) --- */
-        .quadro.result-column {
+        /* Calculadora */
+        .quadro.result-column { 
             flex: 0 0 300px; 
-            background-color: var(--calc-result-bg) !important;
-            border-radius: 8px !important;
-            padding: 25px;
-            box-shadow: 0 4px 15px var(--shadow-light);
-            color: white;
-            border: 1px solid var(--border-color-dark) !important;
+            background-color: var(--calc-result-bg) !important; 
+            border-radius: 8px !important; padding: 25px; 
+            box-shadow: 0 4px 15px var(--shadow-light); 
+            color: var(--text-light-grey); 
+            border: 1px solid var(--border-color-dark) !important; 
         }
-        .quadro.result-column h3 {
-            font-weight: 700;
-            font-size: 1.2em;
-            color: var(--text-light-grey);
-            margin-top: 20px;
-        }
-        .quadro.result-column h4 {
-            font-weight: 600;
-            font-size: 1em;
-            color: var(--text-blue);
-            margin-top: 15px;
-        }
-        .quadro.result-column input[type="text"] {
-            padding: 12px;
-            background-color: var(--input-bg);
-            border: 1px solid var(--text-blue); 
-            border-radius: 6px;
-            color: var(--text-blue);
-            font-size: 1.3em;
-            font-weight: 700;
-            text-align: right;
-            box-shadow: 0 0 5px rgba(0, 170, 255, 0.3);
-        }
-        .quadro.result-column button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 20px;
-            font-size: 1.1em;
-            font-weight: 700;
-            border-radius: 6px;
-        }
-        .quadro.result-column textarea {
-            background-color: var(--input-bg);
-            border: 1px solid var(--input-border);
-            color: var(--text-light-grey);
-            padding: 10px;
-            font-size: 0.9em;
-            border-radius: 6px;
-        }
-        
-        .conversion-info {
-            font-size: 0.9em;
-            margin-top: 15px;
-            padding: 8px;
-            background-color: rgba(0, 170, 255, 0.1);
-            border: 1px solid var(--text-blue);
-            border-radius: 6px;
-            text-align: center;
-            font-weight: 500;
-            color: var(--text-light-grey);
-        }
-        .conversion-info strong {
-            color: var(--text-light-grey);
-            font-weight: 700;
-        }
-        
-        .max-jail-info {
-            font-size: 0.85em;
-            color: var(--alert-red);
-            font-weight: 600;
-            margin-top: 5px;
-        }
-        
-        /* Ajuste do Relatório */
-        .relatorio-container {
-            width: 100%; 
-            margin-top: 20px;
-        }
-        .relatorio-container textarea {
-            width: 100%;
-            min-height: 100px;
-            resize: vertical;
+        .quadro.result-column h3 { font-weight: 700; font-size: 1.2em; color: var(--text-light-grey); margin-top: 20px; }
+        .quadro.result-column h4 { font-weight: 600; font-size: 1em; color: var(--text-blue); margin-top: 15px; }
+        .quadro.result-column input[type="text"] { padding: 12px; background-color: var(--input-bg); border: 1px solid var(--text-blue); border-radius: 6px; color: var(--text-blue); font-size: 1.3em; font-weight: 700; text-align: right; box-shadow: 0 0 5px rgba(0,0,0,0.1); width: 100%; box-sizing: border-box; }
+        .quadro.result-column button { width: 100%; padding: 12px; margin-top: 20px; font-size: 1.1em; font-weight: 700; border-radius: 6px; }
+        .quadro.result-column textarea { background-color: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-light-grey); padding: 10px; font-size: 0.9em; border-radius: 6px; width: 100%; box-sizing: border-box; }
+        .conversion-info { font-size: 0.9em; margin-top: 15px; padding: 8px; background-color: rgba(0,0,0,0.2); border: 1px solid var(--text-blue); border-radius: 6px; text-align: center; font-weight: 500; color: var(--text-light-grey); }
+        .max-jail-info { font-size: 0.85em; color: var(--alert-red); font-weight: 600; margin-top: 5px; }
+        .relatorio-container { width: 100%; margin-top: 20px; }
+        .relatorio-container textarea { width: 100%; min-height: 100px; resize: vertical; }
+
+        .footer { background-color: var(--bg-deep-dark); color: var(--text-dark-grey); text-align: center; padding: 15px; font-size: 0.85em; border-top: 1px solid var(--border-color-dark); flex-shrink: 0; font-family: var(--main-font); }
+        .modal-overlay { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
+        .modal-content { background-color: var(--bg-dark-card); margin: 5% auto; padding: 30px; border: 1px solid var(--text-blue); width: 80%; max-width: 1000px; max-height: 85vh; overflow-y: auto; border-radius: 12px; position: relative; color: var(--text-light-grey); }
+        .close-modal { color: var(--text-dark-grey); float: right; font-size: 28px; font-weight: bold; cursor: pointer; transition: color 0.2s; }
+        .close-modal:hover { color: var(--alert-red); }
+        .penal-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .penal-table th, .penal-table td { border: 1px solid var(--border-color-dark); padding: 12px 15px; text-align: left; }
+        .penal-table th { background-color: var(--crime-header-bg); color: var(--text-blue); font-weight: 700; position: sticky; top: 0; }
+        .penal-table tr:hover { background-color: var(--hover-bg); }
+        .penal-table td.cat-row { background-color: rgba(0,0,0,0.2); color: var(--text-light-grey); font-weight: bold; text-align: center; padding: 15px; }
+
+        /* --- MODO MINIMALISTA --- */
+        body.compact-mode .value-display-container, 
+        body.compact-mode .social-buttons-container,
+        body.compact-mode #btn-open-modal,
+        body.compact-mode .conversion-info,
+        body.compact-mode .max-jail-info {
+            display: none !important;
         }
 
-        /* Estilo do Rodapé */
-        .footer {
-            background-color: var(--bg-deep-dark);
-            color: var(--text-dark-grey);
-            text-align: center;
-            padding: 15px;
-            font-size: 0.85em;
-            border-top: 1px solid var(--border-color-dark);
-            flex-shrink: 0;
-            font-family: var(--main-font);
-        }
-        .footer strong {
-            color: var(--text-light-grey);
-            font-weight: 600;
-        }
+        body.compact-mode .inputs-container { display: flex !important; }
+        body.compact-mode .corp-header { border-right: none; }
+        body.compact-mode .value-display-container { border-right: none; }
+        body.compact-mode .quadrotopo { padding: 10px 30px; margin-bottom: 15px; }
 
-        /* --- MODAL DO CÓDIGO PENAL --- */
-        .modal-overlay {
-            display: none; /* Escondido por padrão */
-            position: fixed; 
-            z-index: 9999; 
-            left: 0;
-            top: 0;
-            width: 100%; 
-            height: 100%; 
-            background-color: rgba(0,0,0,0.85); /* Fundo escuro */
-            backdrop-filter: blur(5px);
+        /* --- RESPONSIVIDADE (MOBILE) --- */
+        @media (max-width: 768px) {
+            .content-area { padding: 15px; }
+            .quadrotopo { flex-direction: column; align-items: center; gap: 15px; text-align: center; }
+            .corp-header { border-right: none; border-bottom: 1px solid var(--border-color-dark); padding-bottom: 10px; padding-right: 0; width: 100%; }
+            .inputs-container { width: 100%; flex-direction: column; align-items: center; }
+            .input-group-item { width: 100%; }
+            .input-group-item input { width: 100%; box-sizing: border-box; }
+            
+            .right-controls-wrapper { margin-left: 0; justify-content: center; width: 100%; flex-wrap: wrap; }
+            .value-display-container { border-right: none; border-bottom: 1px solid var(--border-color-dark); padding-bottom: 10px; margin-bottom: 10px; width: 100%; text-align: center; }
+            
+            #calculatorView { flex-direction: column; }
+            .crime-columns { flex-direction: column; }
+            
+            .quadro.result-column { flex: 1 1 auto; width: 100%; max-width: none; order: -1; }
+            .search-crimes-container { max-width: 100%; margin-right: 0; }
         }
-
-        .modal-content {
-            background-color: var(--bg-dark-card);
-            margin: 5% auto; 
-            padding: 30px;
-            border: 1px solid var(--text-blue);
-            width: 80%; 
-            max-width: 1000px;
-            max-height: 85vh;
-            overflow-y: auto;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0, 170, 255, 0.2);
-            position: relative;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .close-modal {
-            color: var(--text-dark-grey);
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .close-modal:hover {
-            color: var(--alert-red);
-        }
-
-        .modal-header h2 {
-            color: var(--text-blue);
-            margin-top: 0;
-            border-bottom: 2px solid var(--border-color-dark);
-            padding-bottom: 15px;
-            font-size: 1.8em;
-        }
-
-        /* Tabela do Modal */
-        .penal-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        .penal-table th, .penal-table td {
-            border: 1px solid var(--border-color-dark);
-            padding: 12px 15px;
-            text-align: left;
-        }
-        .penal-table th {
-            background-color: var(--crime-header-bg);
-            color: var(--text-blue);
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            position: sticky;
-            top: 0;
-        }
-        .penal-table tr:nth-child(even) {
-            background-color: rgba(255, 255, 255, 0.03);
-        }
-        .penal-table tr:hover {
-            background-color: var(--hover-bg);
-        }
-        .penal-table td.cat-row {
-            background-color: rgba(0, 170, 255, 0.1);
-            color: var(--text-light-grey);
-            font-weight: bold;
-            text-align: center;
-            text-transform: uppercase;
-            padding: 15px;
-        }
-        
     </style>
 </head>
 <body>
 
+<div id="welcomeOverlay" class="welcome-overlay">
+    <div class="welcome-modal">
+        <h2>Bem-vindo!</h2>
+        <p>Fala, cidadão de ImersiON! Tudo certo?</p>
+        <p>Antes de começar seus trabalhos, seja na viatura ou no tribunal, clique na <strong>engrenagem</strong> <i class="fas fa-cog"></i> para configurar seu <strong>Nome</strong>, <strong>Profissão</strong> e escolher o <strong>Tema</strong> visual que mais te agrada!</p>
+        <button class="welcome-btn" onclick="dismissWelcome()">Entendi, vamos lá!</button>
+    </div>
+</div>
+
 <div class="main-wrapper">
-    
     <div class="content-area" id="contentArea">
         
-        <div class="fc quadrotopo">
+        <div class="quadrotopo">
             
             <div class="corp-header">
                 <h2>Código Penal - ImersiON</h2>
-                <span>Roleplay</span>
-            </div>
-
-            <div class="input-group-item">
-                <h3>Nome do Preso</h3>
-                <input type="text" placeholder="Nome do Preso..." id="preso_nome" name="preso_nome" class="form-control">
-            </div>
-
-            <div class="input-group-item">
-                <h3>RG do Preso</h3>
-                <input type="number" placeholder="RG do Preso..." id="preso_rg" name="preso_rg" class="form-control">
-            </div>
-
-            <div class="input-group-item">
-                <h3>RG do Advogado</h3>
-                <input type="number" placeholder="RG do Advogado..." id="adv_rg" name="adv_rg" class="form-control">
-            </div>
-
-            <button id="btn-open-modal" class="btn-penal">
-                <i class="fas fa-book"></i> CÓDIGO PENAL
-            </button>
-            
-            <div class="value-display-container">
-                <div class="value-row">
-                    <label>Valor do Advogado (60%):</label>
-                    <span id="advogado_valor">R$ 0,00</span>
-                </div>
-                <div class="value-row">
-                    <label>Valor Resp. Policial (40%):</label>
-                    <span id="policial_valor">R$ 0,00</span>
+                <div id="user-badge-container">
+                    <span class="badge-name">Roleplay</span>
                 </div>
             </div>
 
-            <div class="social-buttons">
-                <a href="https://www.instagram.com/imersionroleplay/" target="_blank" title="Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://www.tiktok.com/@imersionrp?lang=en" target="_blank" title="TikTok">
-                    <i class="fab fa-tiktok"></i>
-                </a>
-                <a href="https://discord.gg/imersionrp" target="_blank" title="Discord">
-                    <i class="fab fa-discord"></i>
-                </a>
+            <div class="inputs-container">
+                <div class="input-group-item">
+                    <h3>Nome do Preso</h3>
+                    <input type="text" placeholder="Nome..." id="preso_nome" class="form-control">
+                </div>
+                <div class="input-group-item">
+                    <h3>RG do Preso</h3>
+                    <input type="number" placeholder="RG..." id="preso_rg" class="form-control">
+                </div>
+                <div class="input-group-item">
+                    <h3>RG do Advogado</h3>
+                    <input type="number" placeholder="RG..." id="adv_rg" class="form-control">
+                </div>
+            </div>
+
+            <div class="right-controls-wrapper">
+                
+                <div class="value-display-container">
+                    <div class="value-row">
+                        <label>Advogado (60%):</label>
+                        <span id="advogado_valor">R$ 0,00</span>
+                    </div>
+                    <div class="value-row">
+                        <label>Policial (40%):</label>
+                        <span id="policial_valor">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <button id="btn-open-modal" class="btn-penal">
+                    <i class="fas fa-book"></i> CÓDIGO PENAL
+                </button>
+
+                <div class="social-buttons-container">
+                    <a href="https://www.instagram.com/imersionroleplay/" target="_blank" title="Instagram" class="icon-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="https://discord.gg/imersionrp" target="_blank" title="Discord" class="icon-btn"><i class="fab fa-discord"></i></a>
+                </div>
+
+                <button id="settingsBtn" class="icon-btn" title="Configurações e Temas" style="border: 1px solid var(--text-blue); color: var(--text-blue);">
+                    <i class="fas fa-cog"></i>
+                </button>
+
+                <div id="settingsPanel" class="settings-panel">
+                    
+                    <div class="settings-group">
+                        <div class="settings-title">Identificação</div>
+                        <input type="text" id="settingName" class="settings-input" placeholder="Seu Nome (Ex: Hondo)">
+                        <input type="text" id="settingJob" class="settings-input" placeholder="Profissão (Ex: Policial)">
+                    </div>
+
+                    <div class="settings-group">
+                        <div class="settings-title">Visualização</div>
+                        <label class="switch">
+                            <input type="checkbox" id="compactModeToggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="switch-label">Modo Minimalista</span>
+                    </div>
+
+                    <div class="settings-group">
+                        <div class="settings-title">Temas</div>
+                        <div class="theme-grid">
+                            <div class="theme-btn active" onclick="setTheme('default')">Padrão</div>
+                            <div class="theme-btn" onclick="setTheme('light')">Light</div>
+                            <div class="theme-btn" onclick="setTheme('police')">Polícia</div>
+                            <div class="theme-btn" onclick="setTheme('gold')">Jurídico</div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <div class="settings-title">Cor Personalizada</div>
+                        <input type="color" id="customColorPicker" value="#00aaff" style="width: 100%; height: 30px; cursor: pointer;">
+                    </div>
+                </div>
             </div>
         </div>
 
         <div id="calculatorView">
             
-            <div class="crime-columns">
-                <div id="col1" class="fc quadro form-control body-forms">
-                    <h3 style="background-color: var(--crime-header-bg);"><font>1. CRIMES CONTRA A VIDA:</font></h3>
-                    <div class="checkbox-container">
-                        <input id="1.1 - Homicídio" type="checkbox" name="crime" value="60|12000|25000">
-                        <label for="1.1 - Homicídio">1.1 - Homicídio</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="1.2 - Tentativa de Homicídio" type="checkbox" name="crime" value="45|8000|18000">
-                        <label for="1.2 - Tentativa de Homicídio">1.2 - Tentativa de Homicídio</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="1.3 - Chacina (2 Vítimas)" type="checkbox" name="crime" value="60|20000|NA">
-                        <label for="1.3 - Chacina (2 Vítimas)</label>">1.3 - Chacina (2 Vítimas)</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="1.4 - Chacina (3+ Vítimas)" type="checkbox" name="crime" value="60|30000|NA">
-                        <label for="1.4 - Chacina (3+ Vítimas)</label>">1.4 - Chacina (3+ Vítimas)</label>
-                    </div>
-                    <hr>
-
-                    <h3 style="background-color: var(--crime-header-bg);"><font>2. DIREITOS FUNDAMENTAIS:</font></h3>
-                    <div class="checkbox-container">
-                        <input id="2.1 - Lesão corporal" type="checkbox" name="crime" value="12|3000|6000">
-                        <label for="2.1 - Lesão corporal">2.1 - Lesão corporal</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="2.2 - Sequestro" type="checkbox" name="crime" value="50|10000|20000">
-                        <label for="2.2 - Sequestro">2.2 - Sequestro</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="2.3 - Cárcere privado" type="checkbox" name="crime" value="30|6000|12000">
-                        <label for="2.3 - Cárcere privado">2.3 - Cárcere privado</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="2.4 - Prisão ilegal" type="checkbox" name="crime" value="25|5000|10000">
-                        <label for="2.4 - Prisão ilegal">2.4 - Prisão ilegal</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="2.5 - Prevaricação" type="checkbox" name="crime" value="35|9000|NA">
-                        <label for="2.5 - Prevaricação">2.5 - Prevaricação</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="2.6 - Obstrução da justiça" type="checkbox" name="crime" value="20|5000|10000">
-                        <label for="2.6 - Obstrução da justiça">2.6 - Obstrução da justiça</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="2.7 - Tentativa de suborno" type="checkbox" name="crime" value="30|8000|NA">
-                        <label for="2.7 - Tentativa de suborno">2.7 - Tentativa de suborno</label>
-                    </div>
-                    <hr>
-
-                    <h3 style="background-color: var(--crime-header-bg);"><font>3. CRIMES CONTRA O PATRIMÔNIO:</font></h3>
-                    <div class="checkbox-container">
-                        <input id="3.1 - Furto" type="checkbox" name="crime" value="12|3000|6000">
-                        <label for="3.1 - Furto">3.1 - Furto</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="3.2 - Tentativa de furto" type="checkbox" name="crime" value="8|1500|3000">
-                        <label for="3.2 - Tentativa de furto">3.2 - Tentativa de furto</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="3.3 - Receptação" type="checkbox" name="crime" value="18|3500|8000">
-                        <label for="3.3 - Receptação">3.3 - Receptação</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="3.4 - Furto de veículo" type="checkbox" name="crime" value="20|4000|9000">
-                        <label for="3.4 - Furto de veículo">3.4 - Furto de veículo</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="3.5 - Invasão de imóvel" type="checkbox" name="crime" value="22|6000|12000">
-                        <label for="3.5 - Invasão de imóvel">3.5 - Invasão de imóvel</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="3.6 - Roubo" type="checkbox" name="crime" value="30|7000|15000">
-                        <label for="3.6 - Roubo">3.6 - Roubo</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="3.7 - Roubo/Furto de viatura" type="checkbox" name="crime" value="30|10000|20000">
-                        <label for="3.7 - Roubo/Furto de viatura">3.7 - Roubo/Furto de viatura</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="3.8 - Estabelecimento irregular" type="checkbox" name="crime" value="6|2000|5000">
-                        <label for="3.8 - Estabelecimento irregular">3.8 - Estabelecimento irregular</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="3.9 - Falsificação de alvará" type="checkbox" name="crime" value="24|6000|12000">
-                        <label for="3.9 - Falsificação de alvará">3.9 - Falsificação de alvará</label>
-                    </div>
-                    <hr>
+            <div style="flex: 1; display: flex; flex-direction: column;">
+                <div class="search-crimes-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchCrimesInput" class="search-crimes-input" placeholder="Pesquisar crime (ex: Homicídio, Roubo, Tráfico)...">
                 </div>
 
-                <div id="col2" class="fc quadro form-control body-forms">
-                    <h3 style="background-color: var(--crime-header-bg);"><font>4. ROUBO, EXTORSÃO E ESTELIONATO:</font></h3>
-                    <div class="checkbox-container">
-                        <input id="4.1 - Assalto" type="checkbox" name="crime" value="24|6000|12000">
-                        <label for="4.1 - Assalto">4.1 - Assalto</label>
+                <div class="crime-columns">
+                    <div id="col1" class="fc quadro form-control body-forms crime-list-container">
+                        <h3 style="background-color: var(--crime-header-bg);"><font>1. CRIMES CONTRA A VIDA:</font></h3>
+                        <div class="checkbox-container"><input id="1.1 - Homicídio" type="checkbox" name="crime" value="60|12000|25000"><label for="1.1 - Homicídio">1.1 - Homicídio</label></div>
+                        <div class="checkbox-container"><input id="1.2 - Tentativa de Homicídio" type="checkbox" name="crime" value="45|8000|18000"><label for="1.2 - Tentativa de Homicídio">1.2 - Tentativa de Homicídio</label></div>
+                        <div class="checkbox-container"><input id="1.3 - Chacina (2 Vítimas)" type="checkbox" name="crime" value="60|20000|NA"><label for="1.3 - Chacina (2 Vítimas)">1.3 - Chacina (2 Vítimas)</label></div>
+                        <div class="checkbox-container"><input id="1.4 - Chacina (3+ Vítimas)" type="checkbox" name="crime" value="60|30000|NA"><label for="1.4 - Chacina (3+ Vítimas)">1.4 - Chacina (3+ Vítimas)</label></div>
+                        <hr>
+                        <h3 style="background-color: var(--crime-header-bg);"><font>2. DIREITOS FUNDAMENTAIS:</font></h3>
+                        <div class="checkbox-container"><input id="2.1 - Lesão corporal" type="checkbox" name="crime" value="12|3000|6000"><label for="2.1 - Lesão corporal">2.1 - Lesão corporal</label></div>
+                        <div class="checkbox-container"><input id="2.2 - Sequestro" type="checkbox" name="crime" value="50|10000|20000"><label for="2.2 - Sequestro">2.2 - Sequestro</label></div>
+                        <div class="checkbox-container"><input id="2.3 - Cárcere privado" type="checkbox" name="crime" value="30|6000|12000"><label for="2.3 - Cárcere privado">2.3 - Cárcere privado</label></div>
+                        <div class="checkbox-container"><input id="2.4 - Prisão ilegal" type="checkbox" name="crime" value="25|5000|10000"><label for="2.4 - Prisão ilegal">2.4 - Prisão ilegal</label></div>
+                        <div class="checkbox-container"><input id="2.5 - Prevaricação" type="checkbox" name="crime" value="35|9000|NA"><label for="2.5 - Prevaricação">2.5 - Prevaricação</label></div>
+                        <div class="checkbox-container"><input id="2.6 - Obstrução da justiça" type="checkbox" name="crime" value="20|5000|10000"><label for="2.6 - Obstrução da justiça">2.6 - Obstrução da justiça</label></div>
+                        <div class="checkbox-container"><input id="2.7 - Tentativa de suborno" type="checkbox" name="crime" value="30|8000|NA"><label for="2.7 - Tentativa de suborno">2.7 - Tentativa de suborno</label></div>
+                        <hr>
+                        <h3 style="background-color: var(--crime-header-bg);"><font>3. CRIMES CONTRA O PATRIMÔNIO:</font></h3>
+                        <div class="checkbox-container"><input id="3.1 - Furto" type="checkbox" name="crime" value="12|3000|6000"><label for="3.1 - Furto">3.1 - Furto</label></div>
+                        <div class="checkbox-container"><input id="3.2 - Tentativa de furto" type="checkbox" name="crime" value="8|1500|3000"><label for="3.2 - Tentativa de furto">3.2 - Tentativa de furto</label></div>
+                        <div class="checkbox-container"><input id="3.3 - Receptação" type="checkbox" name="crime" value="18|3500|8000"><label for="3.3 - Receptação">3.3 - Receptação</label></div>
+                        <div class="checkbox-container"><input id="3.4 - Furto de veículo" type="checkbox" name="crime" value="20|4000|9000"><label for="3.4 - Furto de veículo">3.4 - Furto de veículo</label></div>
+                        <div class="checkbox-container"><input id="3.5 - Invasão de imóvel" type="checkbox" name="crime" value="22|6000|12000"><label for="3.5 - Invasão de imóvel">3.5 - Invasão de imóvel</label></div>
+                        <div class="checkbox-container"><input id="3.6 - Roubo" type="checkbox" name="crime" value="30|7000|15000"><label for="3.6 - Roubo">3.6 - Roubo</label></div>
+                        <div class="checkbox-container"><input id="3.7 - Roubo/Furto de viatura" type="checkbox" name="crime" value="30|10000|20000"><label for="3.7 - Roubo/Furto de viatura">3.7 - Roubo/Furto de viatura</label></div>
+                        <div class="checkbox-container"><input id="3.8 - Estabelecimento irregular" type="checkbox" name="crime" value="6|2000|5000"><label for="3.8 - Estabelecimento irregular">3.8 - Estabelecimento irregular</label></div>
+                        <div class="checkbox-container"><input id="3.9 - Falsificação de alvará" type="checkbox" name="crime" value="24|6000|12000"><label for="3.9 - Falsificação de alvará">3.9 - Falsificação de alvará</label></div>
+                        <hr>
                     </div>
-                    <div class="checkbox-container">
-                        <input id="4.2 - Extorsão" type="checkbox" name="crime" value="30|7000|15000">
-                        <label for="4.2 - Extorsão">4.2 - Extorsão</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="4.3 - Furto a caixa eletrônico" type="checkbox" name="crime" value="35|8000|18000">
-                        <label for="4.3 - Furto a caixa eletrônico">4.3 - Furto a caixa eletrônico</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="4.4 - Estelionato simples" type="checkbox" name="crime" value="18|4000|8000">
-                        <label for="4.4 - Estelionato simples">4.4 - Estelionato simples</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="4.5 - Golpe financeiro" type="checkbox" name="crime" value="24|6000|12000">
-                        <label for="4.5 - Golpe financeiro">4.5 - Golpe financeiro</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="4.6 - Golpe bancário" type="checkbox" name="crime" value="30|8000|18000">
-                        <label for="4.6 - Golpe bancário">4.6 - Golpe bancário</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="4.7 - Estelionato em massa" type="checkbox" name="crime" value="40|12000|25000">
-                        <label for="4.7 - Estelionato em massa">4.7 - Estelionato em massa</label>
-                    </div>
-                    <hr>
 
-                    <h3 style="background-color: var(--crime-header-bg);"><font>5. ARMAS E MUNIÇÕES:</font></h3>
-                    <div class="checkbox-container">
-                        <input id="5.1 - Porte de arma leve" type="checkbox" name="crime" value="20|5000|12000">
-                        <label for="5.1 - Porte de arma leve">5.1 - Porte de arma leve</label>
+                    <div id="col2" class="fc quadro form-control body-forms crime-list-container">
+                        <h3 style="background-color: var(--crime-header-bg);"><font>4. ROUBO, EXTORSÃO E ESTELIONATO:</font></h3>
+                        <div class="checkbox-container"><input id="4.1 - Assalto" type="checkbox" name="crime" value="24|6000|12000"><label for="4.1 - Assalto">4.1 - Assalto</label></div>
+                        <div class="checkbox-container"><input id="4.2 - Extorsão" type="checkbox" name="crime" value="30|7000|15000"><label for="4.2 - Extorsão">4.2 - Extorsão</label></div>
+                        <div class="checkbox-container"><input id="4.3 - Furto a caixa eletrônico" type="checkbox" name="crime" value="35|8000|18000"><label for="4.3 - Furto a caixa eletrônico">4.3 - Furto a caixa eletrônico</label></div>
+                        <div class="checkbox-container"><input id="4.4 - Estelionato simples" type="checkbox" name="crime" value="18|4000|8000"><label for="4.4 - Estelionato simples">4.4 - Estelionato simples</label></div>
+                        <div class="checkbox-container"><input id="4.5 - Golpe financeiro" type="checkbox" name="crime" value="24|6000|12000"><label for="4.5 - Golpe financeiro">4.5 - Golpe financeiro</label></div>
+                        <div class="checkbox-container"><input id="4.6 - Golpe bancário" type="checkbox" name="crime" value="30|8000|18000"><label for="4.6 - Golpe bancário">4.6 - Golpe bancário</label></div>
+                        <div class="checkbox-container"><input id="4.7 - Estelionato em massa" type="checkbox" name="crime" value="40|12000|25000"><label for="4.7 - Estelionato em massa">4.7 - Estelionato em massa</label></div>
+                        <hr>
+                        <h3 style="background-color: var(--crime-header-bg);"><font>5. ARMAS E MUNIÇÕES:</font></h3>
+                        <div class="checkbox-container"><input id="5.1 - Porte de arma leve" type="checkbox" name="crime" value="20|5000|12000"><label for="5.1 - Porte de arma leve">5.1 - Porte de arma leve</label></div>
+                        <div class="checkbox-container"><input id="5.2 - Porte de arma pesada" type="checkbox" name="crime" value="35|10000|20000"><label for="5.2 - Porte de arma pesada">5.2 - Porte de arma pesada</label></div>
+                        <div class="checkbox-container"><input id="5.3 - Tráfico de armas" type="checkbox" name="crime" value="50|15000|30000"><label for="5.3 - Tráfico de armas">5.3 - Tráfico de armas</label></div>
+                        <div class="checkbox-container"><input id="5.4 - Posse de munição (-250)" type="checkbox" name="crime" value="10|2000|5000"><label for="5.4 - Posse de munição (-250)">5.4 - Posse de munição (-250)</label></div>
+                        <div class="checkbox-container"><input id="5.5 - Tráfico de munição (+250)" type="checkbox" name="crime" value="24|7000|15000"><label for="5.5 - Tráfico de munição (+250)">5.5 - Tráfico de munição (+250)</label></div>
+                        <div class="checkbox-container"><input id="5.6 - Posse de arma branca" type="checkbox" name="crime" value="6|1000|3000"><label for="5.6 - Posse de arma branca">5.6 - Posse de arma branca</label></div>
+                        <div class="checkbox-container"><input id="5.7 - Posse de material ilegal" type="checkbox" name="crime" value="16|4000|8000"><label for="5.7 - Posse de material ilegal">5.7 - Posse de material ilegal</label></div>
+                        <hr>
+                        <h3 style="background-color: var(--crime-header-bg);"><font>6. NARCOTRÁFICO:</font></h3>
+                        <div class="checkbox-container"><input id="6.1 - Posse de drogas (1-6)" type="checkbox" name="crime" value="0|0|0"><label for="6.1 - Posse de drogas (1-6)">6.1 - Posse de drogas (1-6)</label></div>
+                        <div class="checkbox-container"><input id="6.2 - Tráfico de drogas" type="checkbox" name="crime" value="45|12000|25000"><label for="6.2 - Tráfico de drogas">6.2 - Tráfico de drogas</label></div>
+                        <hr>
+                        <h3 style="background-color: var(--crime-header-bg);"><font>7. CRIMES CIBERNÉTICOS:</font></h3>
+                        <div class="checkbox-container"><input id="7.1 - Invasão de sistema" type="checkbox" name="crime" value="20|5000|10000"><label for="7.1 - Invasão de sistema">7.1 - Invasão de sistema</label></div>
+                        <div class="checkbox-container"><input id="7.2 - Clonagem de celular" type="checkbox" name="crime" value="18|4000|8000"><label for="7.2 - Clonagem de celular">7.2 - Clonagem de celular</label></div>
+                        <div class="checkbox-container"><input id="7.3 - Fraude digital" type="checkbox" name="crime" value="24|6000|12000"><label for="7.3 - Fraude digital">7.3 - Fraude digital</label></div>
+                        <div class="checkbox-container"><input id="7.4 - Uso de software ilegal" type="checkbox" name="crime" value="14|3000|6000"><label for="7.4 - Uso de software ilegal">7.4 - Uso de software ilegal</label></div>
+                        <div class="checkbox-container"><input id="7.5 - Vazamento de dados" type="checkbox" name="crime" value="30|8000|18000"><label for="7.5 - Vazamento de dados">7.5 - Vazamento de dados</label></div>
+                        <hr>
                     </div>
-                    <div class="checkbox-container">
-                        <input id="5.2 - Porte de arma pesada" type="checkbox" name="crime" value="35|10000|20000">
-                        <label for="5.2 - Porte de arma pesada">5.2 - Porte de arma pesada</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="5.3 - Tráfico de armas" type="checkbox" name="crime" value="50|15000|30000">
-                        <label for="5.3 - Tráfico de armas">5.3 - Tráfico de armas</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="5.4 - Posse de munição (-250)" type="checkbox" name="crime" value="10|2000|5000">
-                        <label for="5.4 - Posse de munição (-250)">5.4 - Posse de munição (-250)</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="5.5 - Tráfico de munição (+250)" type="checkbox" name="crime" value="24|7000|15000">
-                        <label for="5.5 - Tráfico de munição (+250)">5.5 - Tráfico de munição (+250)</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="5.6 - Posse de arma branca" type="checkbox" name="crime" value="6|1000|3000">
-                        <label for="5.6 - Posse de arma branca">5.6 - Posse de arma branca</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="5.7 - Posse de material ilegal" type="checkbox" name="crime" value="16|4000|8000">
-                        <label for="5.7 - Posse de material ilegal">5.7 - Posse de material ilegal</label>
-                    </div>
-                    <hr>
 
-                    <h3 style="background-color: var(--crime-header-bg);"><font>6. NARCOTRÁFICO:</font></h3>
-                    <div class="checkbox-container">
-                        <input id="6.1 - Posse de drogas (1-6)" type="checkbox" name="crime" value="0|0|0">
-                        <label for="6.1 - Posse de drogas (1-6)">6.1 - Posse de drogas (1-6)</label>
+                    <div id="col3" class="fc quadro form-control body-forms crime-list-container">
+                        <h3 style="background-color: var(--crime-header-bg);"><font>8. RELAÇÕES CONJUGAIS:</font></h3>
+                        <div class="checkbox-container"><input id="8.1 - Agressão conjugal" type="checkbox" name="crime" value="20|4000|8000"><label for="8.1 - Agressão conjugal">8.1 - Agressão conjugal</label></div>
+                        <div class="checkbox-container"><input id="8.2 - Lesão conjugal" type="checkbox" name="crime" value="30|6000|12000"><label for="8.2 - Lesão conjugal">8.2 - Lesão conjugal</label></div>
+                        <div class="checkbox-container"><input id="8.3 - Ameaça conjugal" type="checkbox" name="crime" value="14|3000|6000"><label for="8.3 - Ameaça conjugal">8.3 - Ameaça conjugal</label></div>
+                        <div class="checkbox-container"><input id="8.4 - Perseguição (stalking)" type="checkbox" name="crime" value="22|5000|10000"><label for="8.4 - Perseguição (stalking)">8.4 - Perseguição (stalking)</label></div>
+                        <div class="checkbox-container"><input id="8.5 - Cárcere privado conjugal" type="checkbox" name="crime" value="40|8000|18000"><label for="8.5 - Cárcere privado conjugal">8.5 - Cárcere privado conjugal</label></div>
+                        <div class="checkbox-container"><input id="8.6 - Estelionato conjugal" type="checkbox" name="crime" value="28|7000|15000"><label for="8.6 - Estelionato conjugal">8.6 - Estelionato conjugal</label></div>
+                        <div class="checkbox-container"><input id="8.7 - Tentativa de homicídio conjugal" type="checkbox" name="crime" value="45|10000|20000"><label for="8.7 - Tentativa de homicídio conjugal">8.7 - Tent. Homicídio conjugal</label></div>
+                        <div class="checkbox-container"><input id="8.8 - Homicidio conjugal" type="checkbox" name="crime" value="60|15000|NA"><label for="8.8 - Homicidio conjugal">8.8 - Homicidio conjugal</label></div>
+                        <hr>
+                        <h3 style="background-color: var(--crime-header-bg);"><font>9. ORDEM PÚBLICA:</font></h3>
+                        <div class="checkbox-container"><input id="9.1 - Ameaça" type="checkbox" name="crime" value="10|2000|5000"><label for="9.1 - Ameaça">9.1 - Ameaça</label></div>
+                        <div class="checkbox-container"><input id="9.2 - Desobediência" type="checkbox" name="crime" value="8|1500|3000"><label for="9.2 - Desobediência">9.2 - Desobediência</label></div>
+                        <div class="checkbox-container"><input id="9.3 - Vandalismo" type="checkbox" name="crime" value="12|3500|3500"><label for="9.3 - Vandalismo">9.3 - Vandalismo</label></div>
+                        <div class="checkbox-container"><input id="9.4 - Dano ao patrimônio público" type="checkbox" name="crime" value="18|4000|8000"><label for="9.4 - Dano ao patrimônio público">9.4 - Dano ao patrimônio público</label></div>
+                        <div class="checkbox-container"><input id="9.5 - Abuso de autoridade" type="checkbox" name="crime" value="30|6000|12000"><label for="9.5 - Abuso de autoridade">9.5 - Abuso de autoridade</label></div>
+                        <div class="checkbox-container"><input id="9.6 - Uso de máscara" type="checkbox" name="crime" value="10|3000|6000"><label for="9.6 - Uso de máscara">9.6 - Uso de máscara</label></div>
+                        <div class="checkbox-container"><input id="9.7 - Uso de equipamento restrito" type="checkbox" name="crime" value="20|5000|10000"><label for="9.7 - Uso de equipamento restrito">9.7 - Uso de equipamento restrito</label></div>
+                        <hr>
+                        <h3 style="background-color: var(--crime-header-bg);"><font>10. TRÂNSITO (CTB):</font></h3>
+                        <div class="checkbox-container"><input id="10.1 - Tentativa de fuga" type="checkbox" name="crime" value="14|3000|8000"><label for="10.1 - Tentativa de fuga">10.1 - Tentativa de fuga</label></div>
+                        <div class="checkbox-container"><input id="10.2 - Corridas ilegais" type="checkbox" name="crime" value="20|6000|NA"><label for="10.2 - Corridas ilegais">10.2 - Corridas ilegais</label></div>
+                        <div class="checkbox-container"><input id="10.3 - Homicídio culposo no trânsito" type="checkbox" name="crime" value="25|6000|15000"><label for="10.3 - Homicídio culposo no trânsito">10.3 - Homic. culposo no trânsito</label></div>
+                        <div class="checkbox-container"><input id="10.4 - Tentativa de homicídio no trânsito" type="checkbox" name="crime" value="30|7000|18000"><label for="10.4 - Tent. homicídio no trânsito">10.4 - Tent. homicídio no trânsito</label></div>
+                        <hr>
+                        <h3 style="background-color: var(--crime-header-bg);"><font>AGRAVANTES:</font></h3>
+                        <div class="checkbox-container"><input id="14.1 - Desacato a autoridade" type="checkbox" name="crime" value="5|1400|4000"><label for="14.1 - Desacato a autoridade">14.1 - Desacato a autoridade</label></div>
+                        <div class="checkbox-container"><input id="14.2 - Resistência a Prisão" type="checkbox" name="crime" value="5|3000|8000"><label for="14.2 - Resistência a Prisão">14.2 - Resistência a Prisão</label></div>
+                        <hr>
                     </div>
-                    <div class="checkbox-container">
-                        <input id="6.2 - Tráfico de drogas" type="checkbox" name="crime" value="45|12000|25000">
-                        <label for="6.2 - Tráfico de drogas">6.2 - Tráfico de drogas</label>
-                    </div>
-                    <hr>
-
-                    <h3 style="background-color: var(--crime-header-bg);"><font>7. CRIMES CIBERNÉTICOS:</font></h3>
-                    <div class="checkbox-container">
-                        <input id="7.1 - Invasão de sistema" type="checkbox" name="crime" value="20|5000|10000">
-                        <label for="7.1 - Invasão de sistema">7.1 - Invasão de sistema</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="7.2 - Clonagem de celular" type="checkbox" name="crime" value="18|4000|8000">
-                        <label for="7.2 - Clonagem de celular">7.2 - Clonagem de celular</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="7.3 - Fraude digital" type="checkbox" name="crime" value="24|6000|12000">
-                        <label for="7.3 - Fraude digital">7.3 - Fraude digital</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="7.4 - Uso de software ilegal" type="checkbox" name="crime" value="14|3000|6000">
-                        <label for="7.4 - Uso de software ilegal">7.4 - Uso de software ilegal</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="7.5 - Vazamento de dados" type="checkbox" name="crime" value="30|8000|18000">
-                        <label for="7.5 - Vazamento de dados">7.5 - Vazamento de dados</label>
-                    </div>
-                    <hr>
-                </div>
-
-                <div id="col3" class="fc quadro form-control body-forms">
-                    <h3 style="background-color: var(--crime-header-bg);"><font>8. RELAÇÕES CONJUGAIS:</font></h3>
-                    <div class="checkbox-container">
-                        <input id="8.1 - Agressão conjugal" type="checkbox" name="crime" value="20|4000|8000">
-                        <label for="8.1 - Agressão conjugal">8.1 - Agressão conjugal</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="8.2 - Lesão conjugal" type="checkbox" name="crime" value="30|6000|12000">
-                        <label for="8.2 - Lesão conjugal">8.2 - Lesão conjugal</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="8.3 - Ameaça conjugal" type="checkbox" name="crime" value="14|3000|6000">
-                        <label for="8.3 - Ameaça conjugal">8.3 - Ameaça conjugal</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="8.4 - Perseguição (stalking)" type="checkbox" name="crime" value="22|5000|10000">
-                        <label for="8.4 - Perseguição (stalking)">8.4 - Perseguição (stalking)</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="8.5 - Cárcere privado conjugal" type="checkbox" name="crime" value="40|8000|18000">
-                        <label for="8.5 - Cárcere privado conjugal">8.5 - Cárcere privado conjugal</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="8.6 - Estelionato conjugal" type="checkbox" name="crime" value="28|7000|15000">
-                        <label for="8.6 - Estelionato conjugal">8.6 - Estelionato conjugal</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="8.7 - Tentativa de homicídio conjugal" type="checkbox" name="crime" value="45|10000|20000">
-                        <label for="8.7 - Tentativa de homicídio conjugal">8.7 - Tent. Homicídio conjugal</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="8.8 - Homicidio conjugal" type="checkbox" name="crime" value="60|15000|NA">
-                        <label for="8.8 - Homicidio conjugal">8.8 - Homicidio conjugal</label>
-                    </div>
-                    <hr>
-
-                    <h3 style="background-color: var(--crime-header-bg);"><font>9. ORDEM PÚBLICA:</font></h3>
-                    <div class="checkbox-container">
-                        <input id="9.1 - Ameaça" type="checkbox" name="crime" value="10|2000|5000">
-                        <label for="9.1 - Ameaça">9.1 - Ameaça</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="9.2 - Desobediência" type="checkbox" name="crime" value="8|1500|3000">
-                        <label for="9.2 - Desobediência">9.2 - Desobediência</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="9.3 - Vandalismo" type="checkbox" name="crime" value="12|3500|3500">
-                        <label for="9.3 - Vandalismo">9.3 - Vandalismo</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="9.4 - Dano ao patrimônio público" type="checkbox" name="crime" value="18|4000|8000">
-                        <label for="9.4 - Dano ao patrimônio público">9.4 - Dano ao patrimônio público</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="9.5 - Abuso de autoridade" type="checkbox" name="crime" value="30|6000|12000">
-                        <label for="9.5 - Abuso de autoridade">9.5 - Abuso de autoridade</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="9.6 - Uso de máscara" type="checkbox" name="crime" value="10|3000|6000">
-                        <label for="9.6 - Uso de máscara">9.6 - Uso de máscara</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="9.7 - Uso de equipamento restrito" type="checkbox" name="crime" value="20|5000|10000">
-                        <label for="9.7 - Uso de equipamento restrito">9.7 - Uso de equipamento restrito</label>
-                    </div>
-                    <hr>
-
-                    <h3 style="background-color: var(--crime-header-bg);"><font>10. TRÂNSITO (CTB):</font></h3>
-                    <div class="checkbox-container">
-                        <input id="10.1 - Tentativa de fuga" type="checkbox" name="crime" value="14|3000|8000">
-                        <label for="10.1 - Tentativa de fuga">10.1 - Tentativa de fuga</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="10.2 - Corridas ilegais" type="checkbox" name="crime" value="20|6000|NA">
-                        <label for="10.2 - Corridas ilegais">10.2 - Corridas ilegais</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="10.3 - Homicídio culposo no trânsito" type="checkbox" name="crime" value="25|6000|15000">
-                        <label for="10.3 - Homicídio culposo no trânsito">10.3 - Homic. culposo no trânsito</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="10.4 - Tentativa de homicídio no trânsito" type="checkbox" name="crime" value="30|7000|18000">
-                        <label for="10.4 - Tent. homicídio no trânsito">10.4 - Tent. homicídio no trânsito</label>
-                    </div>
-                    <hr>
-
-                    <h3 style="background-color: var(--crime-header-bg);"><font>AGRAVANTES:</font></h3>
-                    <div class="checkbox-container">
-                        <input id="14.1 - Desacato a autoridade" type="checkbox" name="crime" value="5|1400|4000">
-                        <label for="14.1 - Desacato a autoridade">14.1 - Desacato a autoridade</label>
-                    </div>
-                    <div class="checkbox-container">
-                        <input id="14.2 - Resistência a Prisão" type="checkbox" name="crime" value="5|3000|8000">
-                        <label for="14.2 - Resistência a Prisão">14.2 - Resistência a Prisão</label>
-                    </div>
-                    <hr>
                 </div>
             </div>
 
@@ -823,7 +521,7 @@
                 <input hidden="" id="fianca-hidden">
                 <br>
 
-                <button class="btn btn-danger" style="background-color: var(--original-red);" id="limpar-calc">
+                <button class="btn btn-danger" style="background-color: var(--original-red); color: white; border: none;" id="limpar-calc">
                     <i class="fas fa-trash" style="color: #fff; font-size: 20px;"></i> <span>LIMPAR</span>
                 </button>
                 <hr>
@@ -832,31 +530,32 @@
                 <textarea rows="10" cols="50" style="resize: none" readonly="true" maxlength="500" id="copy-text" class="TextoArtigos form-control"></textarea>
 
                 <br>
-                <button class="btn btn-success" style="background-color: #00c003;" id="copy-btn">
+                <button class="btn btn-success" style="background-color: #00c003; color: white; border: none;" id="copy-btn">
                     <i class="fas fa-clipboard" style="color: #fff; font-size: 20px;"></i> <span>COPIAR PARA DISCORD</span>
                 </button>
                 
                 <hr>
+
                 <h3>ATENUANTES:</h3>
                 <div style="font-size: 15px;">
-                    <input type="checkbox" class="form-check-input side-checkboxes" id="advogado-30" name="advogado-30" value="30"> Advogado constituído: <span style="color:#FFF">Redução obrigatória de 30%</span>
+                    <input type="checkbox" class="form-check-input side-checkboxes" id="advogado-30" name="advogado-30" value="30"> Advogado constituído: <span style="color:#888">Redução de 30%</span>
                     
                     <div class="col col-md-12 advogado-1" style="display: none; margin-top: 10px;">
                         <h4 style="font-size: 15px; color: var(--original-red);">
-                            <input id="reu-primario" type="checkbox" class="form-check-input side-checkboxes" value="50" name="reu-primario"> Réu primário: <span style="color:#FFF">Redução de 50% na pena corrente.</span>
+                            <input id="reu-primario" type="checkbox" class="form-check-input side-checkboxes" value="50" name="reu-primario"> Réu primário: <span style="color:#888">Redução de 50%</span>
                         </h4>
                     </div>
 
                     <div class="col col-md-12 advogado-2" style="display: none; margin-top: 10px;">
                         <h4 style="font-size: 15px; color: var(--original-red);">
-                            <input id="reu-confesso" type="checkbox" class="form-check-input side-checkboxes" value="15" name="reu-confesso"> Réu confesso: <span style="color:#FFF">Redução de 15% na pena corrente.</span>
+                            <input id="reu-confesso" type="checkbox" class="form-check-input side-checkboxes" value="15" name="reu-confesso"> Réu confesso: <span style="color:#888">Redução de 15%</span>
                         </h4>
                     </div>
                 </div>
                 <hr style="margin-bottom: 10px;">
                 
                 <div style="font-size: 15px; margin-top: 5px;">
-                    <input type="checkbox" class="form-check-input side-checkboxes" id="oac-checkbox" name="oac-checkbox" value="100"> POSSUI OAC: <span style="color:#FFF">Aumento obrigatório de 100%</span>
+                    <input type="checkbox" class="form-check-input side-checkboxes" id="oac-checkbox" name="oac-checkbox" value="100"> POSSUI OAC: <span style="color:#888">Aumento de 100%</span>
                 </div>
                 <hr style="margin-top: 20px;">
                 
@@ -878,8 +577,7 @@
         <div class="modal-header">
             <h2>Tabela Completa - Código Penal</h2>
         </div>
-        <div id="modalBody">
-            </div>
+        <div id="modalBody"></div>
     </div>
 </div>
 
@@ -899,48 +597,240 @@
         const copyTextarea = document.getElementById('copy-text');
         const maxJailInfo = document.getElementById('max-jail-info');
         
-        // Inputs de preenchimento
         const nomePresoInput = document.getElementById('preso_nome');
         const rgPresoInput = document.getElementById('preso_rg');
         const rgAdvogadoInput = document.getElementById('adv_rg');
         const relatorioInput = document.getElementById('relatorio_content');
         const oacCheckbox = document.getElementById('oac-checkbox');
 
-        // Novos campos de exibição de valor
         const advogadoValorSpan = document.getElementById('advogado_valor');
         const policialValorSpan = document.getElementById('policial_valor');
+        
+        const searchInput = document.getElementById('searchCrimesInput');
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const compactModeToggle = document.getElementById('compactModeToggle');
+        const customColorPicker = document.getElementById('customColorPicker');
+        
+        // Welcome Modal
+        const welcomeOverlay = document.getElementById('welcomeOverlay');
 
-        // Constantes de Regra
-        const MINUTES_PER_MONTH_SCALE = 6; // 1 Mês = 6 Minutos (60 / 10)
+        // Identificação
+        const settingName = document.getElementById('settingName');
+        const settingJob = document.getElementById('settingJob');
+        const userBadgeContainer = document.getElementById('user-badge-container');
+
+        const MINUTES_PER_MONTH_SCALE = 6; 
         const MAX_PENALTY_MONTHS = 60; 
         const INAFIANCAVEL_TEXT = "INAFIANÇÁVEL";
-        const ADVOGADO_PERCENTAGE = 0.60; // 60%
-        const POLICIAL_PERCENTAGE = 0.40; // 40%
+        const ADVOGADO_PERCENTAGE = 0.60; 
+        const POLICIAL_PERCENTAGE = 0.40; 
+
+        // --- LÓGICA DO TUTORIAL (MODAL) ---
+        window.dismissWelcome = () => {
+            welcomeOverlay.style.display = 'none';
+            localStorage.setItem('tutorialDismissed', 'true');
+        };
+
+        function checkTutorial() {
+            // Se NÃO tiver a chave no storage, mostra o modal
+            if(!localStorage.getItem('tutorialDismissed')) {
+                welcomeOverlay.style.display = 'flex'; // Flex para centralizar
+            }
+        }
+
+        // --- SISTEMA DE SALVAMENTO (LOCALSTORAGE) ---
+        function saveState() {
+            // Salvar Inputs de Texto
+            localStorage.setItem('preso_nome', nomePresoInput.value);
+            localStorage.setItem('preso_rg', rgPresoInput.value);
+            localStorage.setItem('adv_rg', rgAdvogadoInput.value);
+            localStorage.setItem('relatorio', relatorioInput.value);
+
+            // Salvar Checkboxes Marcados
+            const checkedIds = [];
+            allCheckboxes.forEach(cb => {
+                if(cb.checked) checkedIds.push(cb.id);
+            });
+            localStorage.setItem('checkedItems', JSON.stringify(checkedIds));
+        }
+
+        function loadState() {
+            // Carregar Inputs
+            if(localStorage.getItem('preso_nome')) nomePresoInput.value = localStorage.getItem('preso_nome');
+            if(localStorage.getItem('preso_rg')) rgPresoInput.value = localStorage.getItem('preso_rg');
+            if(localStorage.getItem('adv_rg')) rgAdvogadoInput.value = localStorage.getItem('adv_rg');
+            if(localStorage.getItem('relatorio')) relatorioInput.value = localStorage.getItem('relatorio');
+
+            // Carregar Checkboxes
+            const checkedItems = JSON.parse(localStorage.getItem('checkedItems')) || [];
+            checkedItems.forEach(id => {
+                const cb = document.getElementById(id);
+                if(cb) cb.checked = true;
+            });
+
+            // CORRIGIDO: Carregar Configurações com Cor Personalizada Preservada
+            if(localStorage.getItem('rpName')) settingName.value = localStorage.getItem('rpName');
+            if(localStorage.getItem('rpJob')) settingJob.value = localStorage.getItem('rpJob');
+            
+            // 1. Pega a cor salva, se houver
+            const savedColor = localStorage.getItem('customColor');
+            
+            // 2. Aplica o tema (isso pode resetar a cor se for default, mas vamos corrigir abaixo)
+            if(localStorage.getItem('selectedTheme')) {
+                setTheme(localStorage.getItem('selectedTheme'), false); // false = não é um reset pelo botão
+            }
+            
+            // 3. Se tinha uma cor salva, aplica ela por cima de tudo
+            if(savedColor) {
+                customColorPicker.value = savedColor;
+                document.documentElement.style.setProperty('--text-blue', savedColor);
+                // Garante que o storage mantenha a cor
+                localStorage.setItem('customColor', savedColor);
+            }
+
+            if(localStorage.getItem('isCompact') === 'true') {
+                compactModeToggle.checked = true;
+                document.body.classList.add('compact-mode');
+            }
+
+            updateUserBadge();
+            updateCalculation();
+            checkTutorial(); // Verifica se precisa mostrar o modal
+        }
+
+        function updateUserBadge() {
+            const name = settingName.value.trim();
+            const job = settingJob.value.trim();
+            
+            // Limpa o container
+            userBadgeContainer.innerHTML = '';
+
+            if(!name && !job) {
+                userBadgeContainer.innerHTML = `<span class="badge-name">Roleplay</span>`;
+            } else {
+                if(name) {
+                    const nameSpan = document.createElement('span');
+                    nameSpan.className = 'badge-name';
+                    nameSpan.textContent = name;
+                    userBadgeContainer.appendChild(nameSpan);
+                }
+                if(job) {
+                    const jobSpan = document.createElement('span');
+                    jobSpan.className = 'badge-job';
+                    // Se houver nome, adiciona vírgula antes
+                    jobSpan.textContent = name ? `, ${job}` : job;
+                    userBadgeContainer.appendChild(jobSpan);
+                }
+            }
+            localStorage.setItem('rpName', name);
+            localStorage.setItem('rpJob', job);
+        }
+
+        settingName.addEventListener('input', updateUserBadge);
+        settingJob.addEventListener('input', updateUserBadge);
+
+        // --- LÓGICA DA CALCULADORA ---
 
         const formatCurrency = (value) => {
-            // Formata para R$ X.XXX,XX
             return `R$ ${value.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         };
 
-        // Função moderna e confiável para copiar texto
         const copyToClipboard = async (text) => {
             try {
                 await navigator.clipboard.writeText(text);
-                alert('Copiado com sucesso! Utilize o template no Discord.');
+                alert('Copiado com sucesso!');
             } catch (err) {
-                console.error('Falha ao copiar:', err);
-                const isiOS = navigator.userAgent.match(/ipad|ipod/i);
-                if (isiOS) {
-                    copyTextarea.select();
-                    copyTextarea.setSelectionRange(0, 99999);
-                    document.execCommand("copy");
-                    alert('Copiado (Fallback iOS)! Utilize o template no Discord.');
-                } else {
-                    alert('Erro ao copiar. O texto da Ficha Criminal foi selecionado para cópia manual.');
-                    copyTextarea.select();
-                }
+                copyTextarea.select();
+                document.execCommand("copy");
+                alert('Texto selecionado para cópia.');
             }
         };
+
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const columns = document.querySelectorAll('.crime-list-container');
+            columns.forEach(column => {
+                let currentHeader = null;
+                let currentHr = null;
+                let itemsInGroup = [];
+                const processGroup = () => {
+                    if (!currentHeader) return;
+                    let hasMatch = false;
+                    itemsInGroup.forEach(item => {
+                        const label = item.querySelector('label').textContent.toLowerCase();
+                        if (label.includes(searchTerm)) { item.style.display = 'flex'; hasMatch = true; } 
+                        else { item.style.display = 'none'; }
+                    });
+                    if (hasMatch) {
+                        currentHeader.style.display = 'block';
+                        if (currentHr) currentHr.style.display = 'block';
+                    } else {
+                        currentHeader.style.display = 'none';
+                        if (currentHr) currentHr.style.display = 'none';
+                    }
+                };
+                Array.from(column.children).forEach(child => {
+                    if (child.tagName === 'H3') {
+                        processGroup();
+                        currentHeader = child;
+                        itemsInGroup = [];
+                        currentHr = null;
+                    } else if (child.tagName === 'HR') {
+                        currentHr = child;
+                    } else if (child.classList.contains('checkbox-container')) {
+                        itemsInGroup.push(child);
+                    }
+                });
+                processGroup();
+            });
+        });
+
+        settingsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            settingsPanel.classList.toggle('show');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!settingsPanel.contains(e.target) && e.target !== settingsBtn) {
+                settingsPanel.classList.remove('show');
+            }
+        });
+
+        compactModeToggle.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                document.body.classList.add('compact-mode');
+            } else {
+                document.body.classList.remove('compact-mode');
+            }
+            localStorage.setItem('isCompact', e.target.checked);
+        });
+
+        window.setTheme = (themeName, isReset = true) => {
+            document.body.removeAttribute('data-theme');
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+            
+            if (themeName === 'default') {
+                // SÓ reseta a cor se for um clique do usuário (isReset = true)
+                // Se for carregamento de página, não reseta.
+                if (isReset) {
+                    const defaultColor = '#00aaff';
+                    document.documentElement.style.setProperty('--text-blue', defaultColor);
+                    customColorPicker.value = defaultColor;
+                    localStorage.removeItem('customColor'); 
+                }
+            } else {
+                document.body.setAttribute('data-theme', themeName);
+                document.documentElement.style.removeProperty('--text-blue');
+            }
+
+            localStorage.setItem('selectedTheme', themeName);
+        };
+
+        customColorPicker.addEventListener('input', (e) => {
+            document.documentElement.style.setProperty('--text-blue', e.target.value);
+            localStorage.setItem('customColor', e.target.value);
+        });
 
         const updateCalculation = () => {
             let totalPenaMonths = 0;
@@ -953,23 +843,16 @@
             crimeCheckboxes.forEach(checkbox => {
                 if (checkbox.checked) {
                     const [penaStr, multaStr, fiancaStr] = checkbox.value.split('|');
-                    const pena = parseInt(penaStr) || 0; // Pena original (em Meses RP do index.html)
+                    const pena = parseInt(penaStr) || 0; 
                     const multa = parseInt(multaStr) || 0;
-                    
                     totalPenaMonths += pena;
                     totalMulta += multa;
-
-                    if (fiancaStr.toUpperCase() === 'NA') {
-                        hasInafiancavel = true;
-                    } else {
-                        totalFianca += parseInt(fiancaStr) || 0;
-                    }
-
+                    if (fiancaStr.toUpperCase() === 'NA') { hasInafiancavel = true; } 
+                    else { totalFianca += parseInt(fiancaStr) || 0; }
                     crimesSelecionados.push(checkbox.id);
                 }
             });
             
-            // --- Aplicação dos Atenuantes ---
             let penaFinalMonths = totalPenaMonths;
             let multaFinal = totalMulta;
             
@@ -977,51 +860,41 @@
             const reuPrimarioEl = document.getElementById('reu-primario');
             const reuConfessoEl = document.getElementById('reu-confesso');
 
-            // 1. Lógica de Atenuantes (Exibição e Cálculo)
             document.querySelectorAll('.advogado-1, .advogado-2').forEach(el => {
                 el.style.display = advConst ? 'block' : 'none';
             });
             
             if (advConst) {
-                // 30% de redução (Pena = Pena * 0.70)
                 penaFinalMonths = Math.ceil(penaFinalMonths * 0.70); 
                 atenuantesList.push("Advogado Constituído (Redução de 30%)");
-
                 if (reuPrimarioEl.checked) {
                     penaFinalMonths = Math.ceil(penaFinalMonths * 0.50); 
                     atenuantesList.push("Réu Primário (Redução de 50%)");
                 }
-                
                 if (reuConfessoEl.checked) {
                     penaFinalMonths = Math.ceil(penaFinalMonths * 0.85); 
                     atenuantesList.push("Réu Confesso (Redução de 15%)");
                 }
             }
 
-            // 2. POSSUI OAC (100% de aumento na pena)
             if (oacCheckbox && oacCheckbox.checked) {
-                 penaFinalMonths = Math.ceil(penaFinalMonths * 2.0); // Aumento em 100% (mult*2)
+                 penaFinalMonths = Math.ceil(penaFinalMonths * 2.0); 
                  atenuantesList.push("POSSUI OAC (Aumento de 100%)");
             }
             
-            // Aplicar o limite máximo de pena
             const penaExceeded = penaFinalMonths > MAX_PENALTY_MONTHS;
-            if (penaExceeded) {
-                penaFinalMonths = MAX_PENALTY_MONTHS;
-            }
+            if (penaExceeded) { penaFinalMonths = MAX_PENALTY_MONTHS; }
             maxJailInfo.style.display = penaExceeded ? 'block' : 'none';
             
-            // 3. Lógica da Fiança (Exibição)
             let fiancaDisplay;
             let fiancaValue = totalFianca;
 
             if (hasInafiancavel) {
                 fiancaDisplay = INAFIANCAVEL_TEXT;
-                fiancaValue = 0; // Zera o valor da fiança para cálculo de 60%/40%
+                fiancaValue = 0; 
             } else if (totalFianca > 0) {
                 fiancaDisplay = formatCurrency(totalFianca);
             } else if (multaFinal > 0) {
-                // Se fiança for 0, mas houver multa, cobra o valor da multa.
                 fiancaValue = multaFinal;
                 fiancaDisplay = formatCurrency(multaFinal);
             } else {
@@ -1033,21 +906,17 @@
                 fiancaValue = 0;
             }
 
-            // 4. CÁLCULO DOS VALORES DE DISTRIBUIÇÃO (60% / 40%)
             const valorAdvogado = fiancaValue * ADVOGADO_PERCENTAGE;
             const valorPolicial = fiancaValue * POLICIAL_PERCENTAGE;
             
-            // Atualiza os inputs de resultados
             const penaFinalRealMinutes = penaFinalMonths * MINUTES_PER_MONTH_SCALE; 
             penaInput.value = penaFinalMonths > 0 ? `${penaFinalMonths} Meses (${penaFinalRealMinutes} Min)` : '0 Meses';
             multaInput.value = formatCurrency(multaFinal);
             fiancaInput.value = fiancaDisplay;
             
-            // Atualiza os campos de distribuição no cabeçalho
             advogadoValorSpan.textContent = formatCurrency(valorAdvogado);
             policialValorSpan.textContent = formatCurrency(valorPolicial);
 
-            // --- Geração do texto de cópia ---
             const atenuantesText = atenuantesList.length > 0 ? atenuantesList.join(', ') : 'Nenhum';
             const crimesSequencia = crimesSelecionados.map(crime => `- ${crime}`).join('\n');
             const nomePreso = nomePresoInput.value.trim() || 'N/A';
@@ -1055,139 +924,80 @@
             const rgAdvogado = rgAdvogadoInput.value.trim() || 'N/A';
             const relatorio = relatorioInput.value.trim() || 'N/A';
             
-            const discordTemplate = `# Ficha Criminal 
-
-**Nome:** ${nomePreso}
-**RG do Preso:** ${rgPreso}
-**Observação:**
-**Crimes:**
-${crimesSequencia}
-
-**Pena Total:** ${penaInput.value}
-**Multa:** ${multaInput.value}
-**Fiança:** ${fiancaInput.value}
-
-**Atenuantes:** ${atenuantesText}
-
-**RG do Advogado:** ${rgAdvogado}
-**Fiança paga?:** (PREENCHER)
-
-**Policial Responsável:** (PREENCHER)
-**Policiais Envolvidos:** (PREENCHER)
-
-**Relatório:** ${relatorio}
-`;
+            const discordTemplate = `# Ficha Criminal \n\n**Nome:** ${nomePreso}\n**RG do Preso:** ${rgPreso}\n**Observação:**\n**Crimes:**\n${crimesSequencia}\n\n**Pena Total:** ${penaInput.value}\n**Multa:** ${multaInput.value}\n**Fiança:** ${fiancaInput.value}\n\n**Atenuantes:** ${atenuantesText}\n\n**RG do Advogado:** ${rgAdvogado}\n**Fiança paga?:** (PREENCHER)\n\n**Policial Responsável:** (PREENCHER)\n**Policiais Envolvidos:** (PREENCHER)\n\n**Relatório:** ${relatorio}\n`;
 
             copyTextarea.value = discordTemplate;
+            
+            // Salvar estado atual após cálculo
+            saveState();
         };
 
-        // --- Inicialização de Listeners ---
-        
         limparCalcBtn.addEventListener('click', () => {
+            // Limpa visualmente
             allCheckboxes.forEach(cb => cb.checked = false);
             nomePresoInput.value = '';
             rgPresoInput.value = '';
             rgAdvogadoInput.value = '';
             relatorioInput.value = '';
+            searchInput.value = ''; 
+            searchInput.dispatchEvent(new Event('input'));
+            
+            // Limpa dados de cálculo do Storage
+            // NOTA: NÃO removo mais o tutorialDismissed aqui.
+            localStorage.removeItem('preso_nome');
+            localStorage.removeItem('preso_rg');
+            localStorage.removeItem('adv_rg');
+            localStorage.removeItem('relatorio');
+            localStorage.removeItem('checkedItems');
+
             updateCalculation();
         });
 
-        // Adiciona listener de mudança para todos os inputs/checkboxes (o coração do cálculo)
-        allCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', updateCalculation);
-        });
-
+        allCheckboxes.forEach(checkbox => { checkbox.addEventListener('change', updateCalculation); });
         nomePresoInput.addEventListener('input', updateCalculation);
         rgPresoInput.addEventListener('input', updateCalculation);
         rgAdvogadoInput.addEventListener('input', updateCalculation);
         relatorioInput.addEventListener('input', updateCalculation);
-        
-        // Função de cópia ativada pelo botão
-        copyBtn.addEventListener('click', () => {
-             copyToClipboard(copyTextarea.value);
-        });
+        copyBtn.addEventListener('click', () => { copyToClipboard(copyTextarea.value); });
 
-        // --- LÓGICA DO MODAL CÓDIGO PENAL ---
         const modal = document.getElementById("modalPenalCode");
         const btnModal = document.getElementById("btn-open-modal");
         const spanClose = document.querySelector(".close-modal");
         const modalBody = document.getElementById("modalBody");
 
-        // Função para gerar a tabela automaticamente baseada nos checkboxes existentes
         function generatePenalTable() {
-            let tableHTML = `<table class="penal-table">
-                                <thead>
-                                    <tr>
-                                        <th>Artigo / Crime</th>
-                                        <th>Pena (Meses)</th>
-                                        <th>Multa</th>
-                                        <th>Fiança</th>
-                                    </tr>
-                                </thead>
-                                <tbody>`;
-            
-            // Varre as 3 colunas de crimes
+            let tableHTML = `<table class="penal-table"><thead><tr><th>Artigo / Crime</th><th>Pena (Meses)</th><th>Multa</th><th>Fiança</th></tr></thead><tbody>`;
             const colunas = document.querySelectorAll('.crime-columns .body-forms');
-            
             colunas.forEach(coluna => {
-                // Pega os elementos filhos (h3 e checkbox-container)
                 const elementos = coluna.children;
-                
                 for (let el of elementos) {
                     if (el.tagName === 'H3') {
-                        // Título da Categoria
                         const categoriaTitulo = el.textContent.replace(':', '');
                         tableHTML += `<tr><td colspan="4" class="cat-row">${categoriaTitulo}</td></tr>`;
                     } else if (el.classList.contains('checkbox-container')) {
-                        // É um crime
                         const input = el.querySelector('input');
                         const label = el.querySelector('label').textContent;
                         const values = input.value.split('|');
-                        
                         const pena = values[0] + " Meses";
                         const multa = parseInt(values[1]).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
                         let fianca = "R$ 0,00";
-                        
-                        if(values[2] === "NA") {
-                            fianca = "<span style='color:var(--alert-red); font-weight:bold;'>INAFIANÇÁVEL</span>";
-                        } else if(parseInt(values[2]) > 0) {
-                             fianca = parseInt(values[2]).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                        } else if (parseInt(values[1]) > 0) {
-                             // Se fiança for 0 na config, mas tem multa, a fiança é a multa (lógica do script principal)
-                             fianca = parseInt(values[1]).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                        }
-                        
-                        tableHTML += `<tr>
-                                        <td><strong>${label}</strong></td>
-                                        <td>${pena}</td>
-                                        <td>${multa}</td>
-                                        <td>${fianca}</td>
-                                      </tr>`;
+                        if(values[2] === "NA") { fianca = "<span style='color:var(--alert-red); font-weight:bold;'>INAFIANÇÁVEL</span>"; } 
+                        else if(parseInt(values[2]) > 0) { fianca = parseInt(values[2]).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); } 
+                        else if (parseInt(values[1]) > 0) { fianca = parseInt(values[1]).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+                        tableHTML += `<tr><td><strong>${label}</strong></td><td>${pena}</td><td>${multa}</td><td>${fianca}</td></tr>`;
                     }
                 }
             });
-
             tableHTML += `</tbody></table>`;
             modalBody.innerHTML = tableHTML;
         }
 
-        btnModal.onclick = function() {
-            generatePenalTable(); // Gera a tabela sempre que abrir para garantir dados atualizados
-            modal.style.display = "block";
-        }
+        btnModal.onclick = function() { generatePenalTable(); modal.style.display = "block"; }
+        spanClose.onclick = function() { modal.style.display = "none"; }
+        window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
 
-        spanClose.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        // Chamada inicial (para preencher campos vazios)
-        updateCalculation(); 
+        // Carregar estado ao iniciar
+        loadState();
     });
 </script>
 
